@@ -1,0 +1,62 @@
+<div class="clients-container">
+    <!-- Search and Add Client Section -->
+    <div class="clients-header">
+      <input type="text" placeholder="Search clients..." [(ngModel)]="searchTerm" (input)="filterClients()">
+      <button mat-button class="blue-btn" (click)="onAdding = true">
+        <span class="icon">+</span> Add Client
+      </button>
+    </div>
+    <mat-divider></mat-divider>
+
+    <div *ngIf="onAdding" class="add-client-form" style="margin-bottom: 30px;">
+      <mat-form-field>
+        <mat-label>ID</mat-label>
+        <input matInput [(ngModel)]="newClient.id" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Nom</mat-label>
+        <input matInput [(ngModel)]="newClient.nom" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Telephone</mat-label>
+        <input matInput [(ngModel)]="newClient.telephone" />
+      </mat-form-field>
+      <div class="form-actions">
+        <button mat-button  class="green-btn" (click)="addClient()">Save</button>
+        <button mat-button class="red-btn" (click)="onAdding = false">Cancel</button>
+      </div>
+      <mat-divider></mat-divider>
+    </div>
+    
+
+    <!-- Clients Table -->
+    <table class="clients-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>NOM</th>
+          <th>Telephone</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let client of clients">
+          <td>{{ client.id }} 
+            <input matInput [(ngModel)]="newClient.id" *ngIf="client.onediting"/>
+          </td>
+          <td>{{ client.nom }}
+            <input matInput [(ngModel)]="newClient.nom" *ngIf="client.onediting"/>
+          </td>
+          <td>{{ client.telephone }}
+            <input matInput [(ngModel)]="newClient.telephone" *ngIf="client.onediting"/>
+          </td>
+          <td>
+            <button mat-button class="blue-btn"  *ngIf="client.onediting" (click)="editClient(client)">enregistrer</button>
+            <button mat-button class="green-btn" (click)="client.onediting=!client.onediting">modifier</button>
+            <button mat-button class="red-btn"  (click)="deleteClient(client)">supprimer</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  

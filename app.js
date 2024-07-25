@@ -31,8 +31,8 @@ function createWindow() {
     width: 800,
     height: 600,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: true,
+      nodeIntegrationInWorker: true,
       contextIsolation: false,
       enableRemoteModule: true,
       webSecurity: true ,
@@ -76,5 +76,24 @@ app.on('window-all-closed', () => {
 app.on('activate', () => {
   if (win === null) {
     createWindow();
+  }
+});
+ipcMain.on('navigate', (event, route) => {
+  console.log(`Navigating to ${route}`);
+  if (win) {
+    win.loadURL(
+      url.format({
+        pathname: path.join(__dirname, 'dist/aliagri/browser/index.html'),
+        protocol: 'file:',
+        slashes: true,
+        hash: route
+      })
+    ).then(() => {
+      console.log('Navigation successful');
+    }).catch(err => {
+      console.error('Navigation failed:', err);
+    });
+  } else {
+    console.error('BrowserWindow instance is null');
   }
 });

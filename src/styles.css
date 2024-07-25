@@ -1,1 +1,31 @@
 /* You can add global styles to this file, and also import other style files */
+@import '@angular/material/prebuilt-themes/indigo-pink.css'; 
+
+
+/* Style for input fields inside mat-form-field */
+.add-client-form .mat-form-field .mat-input-element {
+    background-color: #e8f5e9; /* Light green color */
+  }
+  
+  /* Optional: Add some padding to the input fields */
+  .add-client-form .mat-form-field .mat-input-element {
+    padding: 10px;
+  }
+  
+  /* Optional: Adjust the border color or focus color */
+  .add-client-form .mat-form-field .mat-form-field-appearance-outline .mat-form-field-outline {
+    border-color: #2e7d32; /* Darker green for the border */
+  }
+  
+  .add-client-form .mat-form-field .mat-form-field-appearance-outline .mat-form-field-outline.mat-form-field-outline-thick {
+    border-color: #2e7d32; /* Darker green for the border */
+  }
+  
+  .add-client-form .mat-form-field .mat-form-field-appearance-outline .mat-form-field-outline.mat-form-field-outline-thick .mat-form-field-outline-start {
+    border-color: #2e7d32; /* Darker green for the outline */
+  }
+  
+  .add-client-form .mat-form-field .mat-form-field-appearance-outline .mat-form-field-outline.mat-form-field-outline-thick .mat-form-field-outline-end {
+    border-color: #2e7d32; /* Darker green for the outline */
+  }
+  

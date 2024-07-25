@@ -1,0 +1,11 @@
+@import '~@angular/material/theming';
+
+// Define custom colors
+$primary: mat-palette($mat-blue, 700); // Blue color
+$warn: mat-palette($mat-red);          // Red color
+
+// Create the theme
+$theme: mat-light-theme($primary, $warn);
+
+// Include Angular Material theme styles
+@include angular-material-theme($theme);

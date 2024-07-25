@@ -1,0 +1,34 @@
+<!-- admin-layout.component.html -->
+<div class="admin-container">
+  <nav class="admin-nav">
+    <ul class="nav-items">
+      <li><a routerLink="./admin-dashboard" routerLinkActive="active">Dashboard</a></li>
+      <li><a routerLink="./clients" routerLinkActive="active">Clients</a></li>
+      <li><a routerLink="./fournisseurs" routerLinkActive="active">Fournisseurs</a></li>
+      <li><a routerLink="./produits" routerLinkActive="active">Produits</a></li>
+      <li><a routerLink="./ventes" routerLinkActive="active">Ventes</a></li>
+      <li><a routerLink="./achats" routerLinkActive="active">Achats</a></li>
+      <li><a routerLink="./factures" routerLinkActive="active">Factures</a></li>
+      <li style="display: flex; justify-content: center;">
+        <div class="menu-icon" (click)="toggleMenu()" style="display: flex; flex-direction: column; justify-content: center; place-content: center;">
+      <div class="menu-bar"></div>
+      <div class="menu-bar"></div>
+      <div class="menu-bar"></div>
+    </div>
+      </li>
+    </ul>
+  </nav>
+  <mat-divider></mat-divider>
+
+  <!-- Pop-up Menu -->
+  <div class="popup-menu" [ngClass]="{'show-popup': isMenuOpen}">
+    <button class="close-popup" (click)="toggleMenu()">X</button>
+    <ul>
+      <li><button (click)="logout()">Logout</button></li>
+    </ul>
+  </div>
+
+  <div class="admin-content">
+    <router-outlet></router-outlet>
+  </div>
+</div>

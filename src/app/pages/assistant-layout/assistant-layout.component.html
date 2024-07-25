@@ -1,0 +1,32 @@
+<!-- assistant-layout.component.html -->
+<div class="assistant-container">
+  <nav class="assistant-nav">
+    <ul class="nav-items">
+      <li><a routerLink="./assistant-dashboard" routerLinkActive="active">Dashboard</a></li>
+      <li><a routerLink="./produits" routerLinkActive="active">Produits</a></li>
+      <li><a routerLink="./ventes" routerLinkActive="active">Ventes</a></li>
+      <li><a routerLink="./achats" routerLinkActive="active">Achats</a></li>
+      <li><a routerLink="./factures" routerLinkActive="active">Factures</a></li>
+      <li>
+        <div class="menu-icon" (click)="toggleMenu()">
+          <div class="menu-bar"></div>
+          <div class="menu-bar"></div>
+          <div class="menu-bar"></div>
+        </div>
+      </li>
+    </ul>
+    
+  </nav>
+
+  <!-- Pop-up Menu -->
+  <div class="popup-menu" [ngClass]="{'show-popup': isMenuOpen}">
+    <button class="close-popup" (click)="toggleMenu()">X</button>
+    <ul>
+      <li><button (click)="logout()">Logout</button></li>
+    </ul>
+  </div>
+
+  <div class="assistant-content">
+    <router-outlet></router-outlet>
+  </div>
+</div>
