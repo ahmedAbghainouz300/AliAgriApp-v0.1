@@ -11,7 +11,8 @@ import { FacturesComponent } from './pages/factures/factures.component';
 import { AdminDashboardComponent } from './pages/admin-dashboard/admin-dashboard.component';
 import { AssistantDashboardComponent } from './pages/assistant-dashboard/assistant-dashboard.component';
 import { AssistantLayoutComponent } from './pages/assistant-layout/assistant-layout.component';
-import { NgModule } from '@angular/core';
+import { CategoriesComponent } from './pages/categories/categories.component';
+import { ProduitsComponent } from './pages/produits/produits.component';
 
 export const routes: Routes = [
   {
@@ -27,7 +28,15 @@ export const routes: Routes = [
       { path: 'admin-dashboard', component: AdminDashboardComponent },
       { path: 'clients', component: ClientsComponent },
       { path: 'fournisseurs', component: FournisseursComponent },
-      { path: 'produits', component: ProductsComponent },
+      {
+        path: 'products',
+        component: ProductsComponent,
+        children: [
+          { path: 'produits', component: ProduitsComponent },
+          { path: 'categories', component: CategoriesComponent },
+          { path: '', redirectTo: 'produits', pathMatch: 'full' },
+        ],
+      },
       { path: 'ventes', component: SalesComponent },
       { path: 'achats', component: PurshasesComponent },
       { path: 'factures', component: FacturesComponent },
@@ -38,7 +47,15 @@ export const routes: Routes = [
     path: 'assistant-layout',
     component: AssistantLayoutComponent,
     children: [
-      { path: 'produits', component: ProductsComponent },
+      {
+        path: 'products',
+        component: ProductsComponent,
+        children: [
+          { path: 'produits', component: ProduitsComponent },
+          { path: 'categories', component: CategoriesComponent },
+          { path: '', redirectTo: 'produits', pathMatch: 'full' },
+        ],
+      },
       { path: 'ventes', component: SalesComponent },
       { path: 'achats', component: PurshasesComponent },
       { path: 'factures', component: FacturesComponent },

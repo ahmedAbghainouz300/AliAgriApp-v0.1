@@ -1,58 +1,83 @@
 .clients-container {
-    padding: 20px;
-    background-color: rgba(255, 255, 255, 0.9);
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 1000px;
-    margin: auto;
-  }
-  
-  .clients-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .clients-header input {
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 70%;
-  }
-  
-  .add-client-btn .icon {
-    margin-right: 5px;
-  }
-  
-  .clients-table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  .clients-table th, .clients-table td {
-    padding: 10px;
-    text-align: left;
-    border-bottom: 1px solid #ccc;
-  }
-  
-  .clients-table th {
-    background-color: #f4f4f4;
-  }
-  .mat-form-field-appearance-outline .mat-form-field-outline {
-    border-color: #2e7d32 !important;
-  }
-  
-.red-btn{
-    background-color: rgb(255, 173, 173);
-    margin: 20px;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 100%;
+  margin: auto;
 }
-.green-btn{
-    background-color: rgb(171, 255, 171);
-    margin: 20px;
+
+.clients-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 }
-.blue-btn{
-    background-color: rgb(174, 200, 255);
-    margin: 20px;
+
+.matformfield {
+  width: 100%;
+  max-width: 300px; /* Adjust the maximum width as needed */
+  margin-right: 20px; /* Add space between the search field and the button */
+}
+
+.add-client-btn {
+  min-width: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.add-client-btn .bi {
+  margin-right: 5px;
+}
+
+.add-client-form {
+  margin-bottom: 30px;
+  background-color: #d4edda; /* Light green background */
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.clients-table-container {
+  overflow-x: auto; /* Add horizontal scroll for small screens */
+}
+
+
+
+.clients-table .btn-sm {
+  padding: 2px 5px;
+  font-size: 12px;
+  line-height: 1.5;
+  margin: 5px;
+}
+
+.mat-mdc-cell{
+  border: 1px solid rgb(130, 130, 130);
+  text-align: center;
+}
+.mat-mdc-row:nth-child(even){
+  background-color: #e3f0e6;  
+}
+.mat-mdc-header-cell{
+  border: 1px solid rgb(130, 130, 130);
+  text-align: center;
+}
+.mat-mdc-header-row{
+  border: 1px solid rgb(130, 130, 130);
+  background-color: #56be6e;
+}
+.mat-mdc-paginator{
+  border: 1px solid rgb(130, 130, 130);
 }

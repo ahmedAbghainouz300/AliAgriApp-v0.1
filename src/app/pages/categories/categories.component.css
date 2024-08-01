@@ -1,0 +1,86 @@
+/* General container styles */
+.container {
+    display: flex;
+    justify-content: space-evenly;
+    padding: 20px;
+    background-color: #e8f5e9; /* Light green background for the entire container */
+}
+
+/* Flex containers for categories and units */
+.categories-container, .units-container {
+    flex: 0.45;
+    padding: 20px;
+    background-color: #ffffff; /* White background for individual sections */
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Styling for headers */
+.header {
+    display: flex;
+    justify-content: space-between; /* Space elements evenly */
+    align-items: center;
+    margin-bottom: 10px; /* Add some space below header */
+}
+
+/* Form field styling */
+.matformfield {
+    width: 50%;
+}
+
+/* Add button styling */
+.add-item-btn {
+    display: flex;
+    align-items: center;
+    background-color: #4caf50;
+    font-size: small; 
+    color: #ffffff;
+    width: 20%;
+}
+
+.add-item-btn i {
+    margin-right: 5px;
+}
+
+/* Styling for table container */
+.table-container {
+    margin-top: 20px;
+}
+
+/* Styling for mat-elevation-z8 class */
+.mat-elevation-z8 {
+    background-color: #ffffff;
+    border-radius: 5px;
+}
+
+/* Cell border styling */
+.bordered-cell {
+    border-bottom: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+/* Button styling */
+button {
+    margin-right: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+button i {
+    margin-right: 5px;
+}
+
+/* Flexbox properties for responsive layout */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .categories-container, .units-container {
+        flex: 1;
+        width: 100%;
+        margin-bottom: 20px;
+    }
+}

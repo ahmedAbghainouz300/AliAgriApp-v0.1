@@ -18,20 +18,20 @@ import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { RightCurrencyPipe } from '../../right-currency.pipe';
+import { promises } from 'fs';
 
-export interface Client {
+export interface Produit {
   id: number;
-  cin: string;
-  nom: string;
-  telephone: string;
-  email: string;
-  adresse: string;
-  dateAjout: string;
-  credit: number;
+  reference: string;
+  libelle: string;
+  prixAcahat: string;
+  prixVente: string;
+  unite: string;
+  categorie: string;
   onediting: boolean;
 }
 @Component({
-  selector: 'app-clients',
+  selector: 'app-produits',
   standalone: true,
   imports: [
     CommonModule,
@@ -44,38 +44,44 @@ export interface Client {
     MatSortModule,
     MatPaginatorModule,
   ],
-  templateUrl: './clients.component.html',
-  styleUrls: ['./clients.component.css'],
+  templateUrl: './produits.component.html',
+  styleUrl: './produits.component.css',
 })
-export class ClientsComponent implements OnInit, AfterViewInit {
+export class ProduitsComponent implements OnInit, AfterViewInit {
+  ngAfterViewInit() {
+    if (this.paginator) {
+      this.dataSource.paginator = this.paginator;
+    }
+    if (this.sort) {
+      this.dataSource.sort = this.sort;
+    }
+  }
   dataSource: any;
   ngOnInit(): void {
-    this.loadClients();
+    this.loadProduits();
   }
 
   searchTerm: string = '';
-  clients: Client[] = [];
+  Produits: Produit[] = [];
   onAdding: boolean = false;
-  editedClient: Client = {
+  editedProduit: Produit = {
     id: 0,
-    cin: '',
-    nom: '',
-    telephone: '',
-    email: '',
-    adresse: '',
-    dateAjout: '',
-    credit: 0,
+    reference: '',
+    libelle: '',
+    prixAcahat: '',
+    prixVente: '',
+    unite: '',
+    categorie: '',
     onediting: false,
   };
-  newClient: Client = {
+  newProduit: Produit = {
     id: 0,
-    cin: '',
-    nom: '',
-    telephone: '',
-    email: '',
-    adresse: '',
-    dateAjout: '',
-    credit: 0,
+    reference: '',
+    libelle: '',
+    prixAcahat: '',
+    prixVente: '',
+    unite: '',
+    categorie: '',
     onediting: false,
   };
   constructor(
@@ -85,16 +91,14 @@ export class ClientsComponent implements OnInit, AfterViewInit {
     private _liveAnnouncer: LiveAnnouncer
   ) {}
 
-  async loadClients() {
+  async loadProduits() {
     try {
-      const clients = await this.databaseservise.queryDatabase(
-        'SELECT * FROM CLIENTS'
+      const produits = await this.databaseservise.queryDatabase(
+        'SELECT * FROM produits'
       );
-      if (Array.isArray(clients)) {
-        this.clients = clients;
-        this.dataSource = new MatTableDataSource<Client>(this.clients);
-        console.log('clients : ', this.clients);
-        console.log('datasource : ', this.dataSource);
+      if (Array.isArray(produits)) {
+        this.Produits = produits;
+        this.dataSource = new MatTableDataSource<Produit>(this.Produits);
         this.cdr.detectChanges();
       } else {
         throw new Error('Invalid data format');
@@ -106,89 +110,89 @@ export class ClientsComponent implements OnInit, AfterViewInit {
     this.ngAfterViewInit();
   }
 
-  async addClient() {
+  async addProduit() {
     this.onAdding = true;
     try {
       await this.databaseservise.queryDatabase(
-        'INSERT INTO CLIENTS (cin ,nom, telephone, email, adresse) VALUES (?, ? , ?, ?, ?)',
+        'INSERT INTO produits (reference ,libelle, prixAchat, prixVente, unite, categorieId) VALUES (?, ? , ?, ?, ?, ?)',
         [
-          this.newClient.cin,
-          this.newClient.nom,
-          this.newClient.telephone,
-          this.newClient.email,
-          this.newClient.adresse,
+          this.newProduit.reference,
+          this.newProduit.libelle,
+          this.newProduit.prixAcahat,
+          this.newProduit.prixVente,
+          this.newProduit.unite,
+          this.newProduit.categorie,
         ]
       );
       this.showSuccessAlert();
-      this.loadClients();
+      this.loadProduits();
     } catch (err) {
       alert('Failed to add client');
       console.error('Error inserting client:', err);
     }
-    this.newClient = {
+    this.newProduit = {
       id: 0,
-      cin: '',
-      nom: '',
-      telephone: '',
-      email: '',
-      adresse: '',
-      dateAjout: '',
-      credit: 0,
+      reference: '',
+      libelle: '',
+      prixAcahat: '',
+      prixVente: '',
+      unite: '',
+      categorie: '',
       onediting: false,
     };
     this.onAdding = false;
   }
 
-  onEditing(client: Client) {
-    if (!client.onediting) {
+  onEditing(produit: Produit) {
+    if (!produit.onediting) {
       // Copy client data to newClient
-      this.editedClient = { ...client };
-      client.onediting = true;
+      this.editedProduit = { ...produit };
+      produit.onediting = true;
       this.onAdding = false;
     } else {
-      client.onediting = false;
+      produit.onediting = false;
     }
   }
-  editClient(client: Client) {
+  editProduit(produit: Produit) {
     try {
       this.databaseservise.queryDatabase(
         `
-        UPDATE clients
-        SET cin = ?,nom = ?, telephone = ?,email = ?,adresse = ?
+        UPDATE produits
+        SET reference = ?,libelle = ?, prixAchat = ?,prixVente = ?,unite = ?,categorie
         WHERE id = ?;
       `,
         [
-          this.editedClient.cin,
-          this.editedClient.nom,
-          this.editedClient.telephone,
-          this.editedClient.email,
-          this.editedClient.adresse,
-          client.id,
+          this.editedProduit.reference,
+          this.editedProduit.libelle,
+          this.editedProduit.prixAcahat,
+          this.editedProduit.prixVente,
+          this.editedProduit.unite,
+          this.editedProduit.categorie,
+          produit.id,
         ]
       );
     } catch (err) {
       alert("client n'a pas pu etre modifie");
       console.log('erreur modifying client', err);
     }
-    client.onediting = false;
-    this.editedClient = {
+    produit.onediting = false;
+    this.editedProduit = {
       id: 0,
-      cin: '',
-      nom: '',
-      telephone: '',
-      email: '',
-      adresse: '',
-      dateAjout: '',
-      credit: 0,
+      reference: '',
+      libelle: '',
+      prixAcahat: '',
+      prixVente: '',
+      unite: '',
+      categorie: '',
       onediting: false,
     };
     this.showSuccessAlert();
-    this.loadClients();
+    this.loadProduits();
   }
 
-  deleteClient(client: Client) {
+  deleteProduit(produit: Produit) {
     Swal.fire({
-      title: 'delete user : ' + client.nom,
+      title: 'delete product : ' + produit.libelle,
       text: 'vous ne pouvez pas annuler cette action plus tard !',
       icon: 'warning',
       showCancelButton: true,
@@ -199,16 +203,16 @@ export class ClientsComponent implements OnInit, AfterViewInit {
       if (result.isConfirmed) {
         try {
           this.databaseservise.queryDatabase(
-            `DELETE FROM clients
+            `DELETE FROM produits
 WHERE id = ?`,
-            [client.id]
+            [produit.id]
           );
         } catch (err) {
           alert('ne peut pas supprimer ce client');
           console.log('error deleting client', err);
         }
         this.showSuccessAlert();
-        this.loadClients();
+        this.loadProduits();
       }
     });
   }
@@ -222,13 +226,12 @@ WHERE id = ?`,
   }
 
   displayedColumns: string[] = [
-    'cin',
-    'nom',
-    'telephone',
-    'email',
-    'adresse',
-    'dateAjout',
-    'credit',
+    'reference',
+    'libelle',
+    'prix-achat',
+    'prix-vente',
+    'unite',
+    'categorie',
     'options',
   ];
 
@@ -236,15 +239,6 @@ WHERE id = ?`,
   paginator!: MatPaginator;
   @ViewChild(MatSort)
   sort!: MatSort;
-
-  ngAfterViewInit() {
-    if (this.paginator) {
-      this.dataSource.paginator = this.paginator;
-    }
-    if (this.sort) {
-      this.dataSource.sort = this.sort;
-    }
-  }
   announceSortChange(sortState: Sort) {
     if (sortState.direction) {
       this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);

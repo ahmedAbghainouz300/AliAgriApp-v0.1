@@ -6,10 +6,8 @@ import {
   RouterOutlet,
 } from '@angular/router';
 import { DatabaseService } from '../../database.service';
-import { ClientsComponent } from '../clients/clients.component';
-import Common from 'electron/common';
-import { CommonModule } from '@angular/common';
 import { MatDividerModule } from '@angular/material/divider';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-admin-layout',

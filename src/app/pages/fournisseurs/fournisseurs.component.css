@@ -1,0 +1,68 @@
+.fournisseurs-container {
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 100%;
+    margin: auto;
+  }
+  
+  .fournisseurs-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .add-fournisseur-btn {
+    min-width: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .add-fournisseur-btn .bi {
+    margin-right: 5px;
+  }
+  
+  .add-fournisseur-form {
+    margin-bottom: 30px;
+    background-color: #d4edda; /* Light green background */
+    padding: 15px;
+    border-radius: 5px;
+  }
+  
+  .fournisseurs-table-container {
+    overflow-x: auto; /* Add horizontal scroll for small screens */
+  }
+  
+  .fournisseurs-table .btn-sm {
+    padding: 2px 5px;
+    font-size: 12px;
+    line-height: 1.5;
+    margin: 5px;
+  }
+  
+  .mat-mdc-cell {
+    border: 1px solid rgb(130, 130, 130);
+    text-align: center;
+  }
+  
+  .mat-mdc-row:nth-child(even) {
+    background-color: #e3f0e6;
+  }
+  
+  .mat-mdc-header-cell {
+    border: 1px solid rgb(130, 130, 130);
+    text-align: center;
+  }
+  
+  .mat-mdc-header-row {
+    border: 1px solid rgb(130, 130, 130);
+    background-color: #56be6e;
+  }
+  
+  .mat-mdc-paginator {
+    border: 1px solid rgb(130, 130, 130);
+  }
+  

@@ -25,6 +25,8 @@
     "@angular/platform-browser-dynamic": "^18.0.0",
     "@angular/router": "^18.0.0",
     "@types/electron": "^1.6.10",
+    "bootstrap": "^5.3.3",
+    "bootstrap-icons": "^1.11.3",
     "fs": "^0.0.1-security",
     "ngx-electron": "^2.2.0",
     "path": "^0.12.7",
