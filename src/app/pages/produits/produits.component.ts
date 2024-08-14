@@ -18,14 +18,15 @@ import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { RightCurrencyPipe } from '../../right-currency.pipe';
-import { promises } from 'fs';
-
+import { MatSelectModule } from '@angular/material/select';
+import { Categorie } from '../categories/categories.component';
+import { Unite } from '../categories/categories.component';
 export interface Produit {
   id: number;
   reference: string;
   libelle: string;
-  prixAcahat: string;
-  prixVente: string;
+  prixAchat: number;
+  prixVente: number;
   unite: string;
   categorie: string;
   onediting: boolean;
@@ -43,6 +44,7 @@ export interface Produit {
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
+    MatSelectModule,
   ],
   templateUrl: './produits.component.html',
   styleUrl: './produits.component.css',
@@ -56,10 +58,48 @@ export class ProduitsComponent implements OnInit, AfterViewInit {
       this.dataSource.sort = this.sort;
     }
   }
+  Categories: Categorie[] = [];
+  Unites: Unite[] = [];
+  async loadCategories() {
+    try {
+      const categories = await this.databaseservise.queryDatabase(
+        'SELECT * FROM categories'
+      );
+      if (Array.isArray(categories)) {
+        this.Categories = categories;
+        this.cdr.detectChanges();
+      } else {
+        throw new Error('Invalid data format');
+      }
+    } catch (err) {
+      alert('error loading categories');
+      console.error('error : ', err);
+    }
+  }
+  async loadUnites() {
+    try {
+      const unites = await this.databaseservise.queryDatabase(
+        'SELECT * FROM unites'
+      );
+      if (Array.isArray(unites)) {
+        this.Unites = unites;
+        this.cdr.detectChanges();
+      } else {
+        throw new Error('Invalid data format');
+      }
+    } catch (err) {
+      alert('error loading Unites');
+      console.error('error : ', err);
+    }
+  }
   dataSource: any;
   ngOnInit(): void {
     this.loadProduits();
+    this.loadCategories();
+    this.loadUnites();
   }
+  selectedUnite: number = 0;
+  selectedCategorie: number = 0;
 
   searchTerm: string = '';
   Produits: Produit[] = [];
@@ -68,8 +108,8 @@ export class ProduitsComponent implements OnInit, AfterViewInit {
     id: 0,
     reference: '',
     libelle: '',
-    prixAcahat: '',
-    prixVente: '',
+    prixAchat: 0,
+    prixVente: 0,
     unite: '',
     categorie: '',
     onediting: false,
@@ -78,8 +118,8 @@ export class ProduitsComponent implements OnInit, AfterViewInit {
     id: 0,
     reference: '',
     libelle: '',
-    prixAcahat: '',
-    prixVente: '',
+    prixAchat: 0,
+    prixVente: 0,
     unite: '',
     categorie: '',
     onediting: false,
@@ -114,33 +154,47 @@ export class ProduitsComponent implements OnInit, AfterViewInit {
     this.onAdding = true;
     try {
       await this.databaseservise.queryDatabase(
-        'INSERT INTO produits (reference ,libelle, prixAchat, prixVente, unite, categorieId) VALUES (?, ? , ?, ?, ?, ?)',
+        'INSERT INTO produits (reference ,libelle, prixAchat, prixVente, unite, categorie) VALUES (?, ? , ?, ?, ?, ?)',
         [
           this.newProduit.reference,
           this.newProduit.libelle,
-          this.newProduit.prixAcahat,
+          this.newProduit.prixAchat,
           this.newProduit.prixVente,
-          this.newProduit.unite,
-          this.newProduit.categorie,
+          this.selectedUnite,
+          this.selectedCategorie,
         ]
       );
       this.showSuccessAlert();
       this.loadProduits();
     } catch (err) {
-      alert('Failed to add client');
+      alert('Failed to add product');
       console.error('Error inserting client:', err);
     }
     this.newProduit = {
       id: 0,
       reference: '',
       libelle: '',
-      prixAcahat: '',
-      prixVente: '',
+      prixAchat: 0,
+      prixVente: 0,
       unite: '',
       categorie: '',
       onediting: false,
     };
+    this.selectedUnite = 0;
+    this.selectedCategorie = 0;
     this.onAdding = false;
+  }
+  getUnite(id: number) {
+    for (let unite of this.Unites) {
+      if (unite.id === id) return unite.libelle;
+    }
+    return 'unkown libelle';
+  }
+  getCategorie(id: number) {
+    for (let categorie of this.Categories) {
+      if (categorie.id === id) return categorie.libelle;
+    }
+    return 'unkown libelle';
   }
 
   onEditing(produit: Produit) {
@@ -158,13 +212,13 @@ export class ProduitsComponent implements OnInit, AfterViewInit {
       this.databaseservise.queryDatabase(
         `
         UPDATE produits
-        SET reference = ?,libelle = ?, prixAchat = ?,prixVente = ?,unite = ?,categorie
+        SET reference = ?,libelle = ?, prixAchat = ?,prixVente = ?,unite = ?,categorie = ?
         WHERE id = ?;
       `,
         [
           this.editedProduit.reference,
           this.editedProduit.libelle,
-          this.editedProduit.prixAcahat,
+          this.editedProduit.prixAchat,
           this.editedProduit.prixVente,
           this.editedProduit.unite,
           this.editedProduit.categorie,
@@ -172,16 +226,16 @@ export class ProduitsComponent implements OnInit, AfterViewInit {
         ]
       );
     } catch (err) {
-      alert("client n'a pas pu etre modifie");
-      console.log('erreur modifying client', err);
+      alert("produit n'a pas pu etre modifie");
+      console.log('erreur modifying produit', err);
     }
     produit.onediting = false;
     this.editedProduit = {
       id: 0,
       reference: '',
       libelle: '',
-      prixAcahat: '',
-      prixVente: '',
+      prixAchat: 0,
+      prixVente: 0,
       unite: '',
       categorie: '',
       onediting: false,

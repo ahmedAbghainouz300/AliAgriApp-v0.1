@@ -3,10 +3,11 @@ import { FormsModule, NgModel } from '@angular/forms';
 import { Router, RouterOutlet } from '@angular/router';
 import { DatabaseService } from '../../database.service';
 import { ElectronService } from 'ngx-electron';
+import { NgStyle } from '@angular/common';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [RouterOutlet, FormsModule],
+  imports: [RouterOutlet, FormsModule, NgStyle],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })

@@ -47,6 +47,7 @@ export const routes: Routes = [
     path: 'assistant-layout',
     component: AssistantLayoutComponent,
     children: [
+      { path: 'admin-dashboard', component: AdminDashboardComponent },
       {
         path: 'products',
         component: ProductsComponent,
@@ -59,8 +60,7 @@ export const routes: Routes = [
       { path: 'ventes', component: SalesComponent },
       { path: 'achats', component: PurshasesComponent },
       { path: 'factures', component: FacturesComponent },
-      { path: 'assistant-dashboard', component: AssistantDashboardComponent },
-      { path: '', redirectTo: 'assistant-dashboard', pathMatch: 'full' }, // Default route for assistant-layout
+      { path: '', redirectTo: 'admin-dashboard', pathMatch: 'full' },
     ],
   },
 ];

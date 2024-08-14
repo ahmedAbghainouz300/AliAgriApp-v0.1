@@ -1,129 +1,139 @@
-<div class="clients-container">
-    <!-- Search and Add Client Section -->
-    <div class="clients-header">
-      <mat-form-field appearance="outline" class="matformfield">
-        <mat-label>Search</mat-label>
-        <input matInput [(ngModel)]="searchTerm" (keyup)="filterchange()" />
-      </mat-form-field>
-      <button class="btn btn-outline-primary add-client-btn" (click)="onAdding=!onAdding">
-        <i class="bi bi-plus-circle"></i> Add Client
-      </button>
-    </div>
-    <mat-divider style="margin: 10px 0;"></mat-divider>
-  
-    <div *ngIf="onAdding" class="add-client-form">
-      <div class="form-grid">
-        <mat-form-field appearance="outline" class="matformfield">
-          <mat-label>ID</mat-label>
-          <input matInput [(ngModel)]="newProduit.reference" />
-        </mat-form-field>
-        <mat-form-field appearance="outline" class="matformfield">
-          <mat-label>Nom</mat-label>
-          <input matInput [(ngModel)]="newProduit.libelle" />
-        </mat-form-field>
-        <mat-form-field appearance="outline" class="matformfield">
-          <mat-label>Telephone</mat-label>
-          <input matInput [(ngModel)]="newProduit.prixAcahat" />
-        </mat-form-field>
-        <mat-form-field appearance="outline" class="matformfield">
-          <mat-label>Email</mat-label>
-          <input matInput [(ngModel)]="newProduit.prixVente" />
-        </mat-form-field>
-        <mat-form-field appearance="outline" class="matformfield">
-          <mat-label>Adresse</mat-label>
-          <input matInput [(ngModel)]="newProduit.unite" />
-        </mat-form-field>
-        <mat-form-field appearance="outline" class="matformfield">
-          <mat-label>Adresse</mat-label>
-          <input matInput [(ngModel)]="newProduit.categorie" />
-        </mat-form-field>
-      </div>
-      <div class="form-actions">
-        <button class="btn btn-primary" (click)="addProduit()">Save</button>
-        <button class="btn btn-danger" (click)="onAdding = false">Cancel</button>
-      </div>
-    </div>
-  
-    <div class="mat-elevation-z8 clients-table-container">
-      <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 clients-table">
-    
-        <!-- Nom Column -->
-        <ng-container matColumnDef="reference">
-          <th mat-header-cell *matHeaderCellDef class="bordered-cell" mat-sort-header> Nom </th>
-          <td mat-cell *matCellDef="let client" class="bordered-cell">
-            {{client.nom}}
-            <input *ngIf="client.onediting" [(ngModel)]="editedProduit.reference">
-          </td>
-        </ng-container>
-    
-        <!-- Telephone Column -->
-        <ng-container matColumnDef="libelle">
-          <th mat-header-cell *matHeaderCellDef class="bordered-cell"> Telephone </th>
-          <td mat-cell *matCellDef="let client" class="bordered-cell">
-            {{client.telephone}}
-            <input *ngIf="client.onediting" [(ngModel)]="editedProduit.libelle">
-          </td>
-        </ng-container>
-    
-        <!-- Email Column -->
-        <ng-container matColumnDef="prix-achat">
-          <th mat-header-cell *matHeaderCellDef class="bordered-cell"> Email </th>
-          <td mat-cell *matCellDef="let client" class="bordered-cell">
-            {{client.email}}
-            <input *ngIf="client.onediting" [(ngModel)]="editedProduit.prixAcahat">
-          </td>
-        </ng-container>
-    
-        <!-- Adresse Column -->
-        <ng-container matColumnDef="prix-vente">
-          <th mat-header-cell *matHeaderCellDef class="bordered-cell"> Adresse </th>
-          <td mat-cell *matCellDef="let client" class="bordered-cell">
-            {{client.adresse}}
-            <input *ngIf="client.onediting" [(ngModel)]="editedProduit.prixVente">
-          </td>
-        </ng-container>
-    
-        <!-- Date d'ajout Column -->
-        <ng-container matColumnDef="unite">
-          <th mat-header-cell *matHeaderCellDef class="bordered-cell"> Date d'ajout </th>
-          <td mat-cell *matCellDef="let client" class="bordered-cell">
-            {{client.unite | date}}
-          </td>
-        </ng-container>
-    
-        <!-- Credit Column -->
-        <ng-container matColumnDef="categorie">
-          <th mat-header-cell *matHeaderCellDef class="bordered-cell"> Credit </th>
-          <td mat-cell *matCellDef="let client" class="bordered-cell">
-            {{client.categorie | rightCurrency:'MAD' }}
-          </td>
-        </ng-container>
-    
-        <!-- Options Column -->
-        <ng-container matColumnDef="options">
-          <th mat-header-cell *matHeaderCellDef class="bordered-cell"> Options </th>
-          <td mat-cell *matCellDef="let client" class="bordered-cell">
-            <button class="btn btn-outline-primary btn-sm" *ngIf="client.onediting" (click)="editProduit(client)"> 
-              <i class="bi bi-floppy"></i> Save
-            </button>
-            <button class="btn btn-outline-success btn-sm" (click)="onEditing(client)">
-              <i class="bi bi-pencil-square"></i> Edit
-            </button>
-            <button type="button" class="btn btn-outline-danger btn-sm" (click)="deleteProduit(client)">
-              <i class="bi bi-trash3-fill"></i> Delete
-            </button>
-            <button class="btn btn-outline-dark btn-sm">
-              <i class="bi bi-eye"></i> Details
-            </button>
-          </td>
-        </ng-container>
-    
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      </table>
-    
-      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements">
-      </mat-paginator>
-    </div>  
+<div class="products-container">
+  <!-- Search and Add Product Section -->
+  <div class="products-header">
+    <mat-form-field appearance="outline" class="matformfield">
+      <mat-label>Search</mat-label>
+      <input matInput [(ngModel)]="searchTerm" (keyup)="filterchange()" />
+    </mat-form-field>
+    <button class="btn btn-outline-primary add-client-btn" (click)="onAdding=!onAdding">
+      <i class="bi bi-plus-circle"></i> Add Product
+    </button>
   </div>
-  
+  <mat-divider style="margin: 10px 0;"></mat-divider>
+
+  <div *ngIf="onAdding" class="add-client-form">
+    <div class="form-grid">
+      <mat-form-field appearance="outline" class="matformfield">
+        <mat-label>Reference</mat-label>
+        <input matInput [(ngModel)]="newProduit.reference" />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="matformfield">
+        <mat-label>Libelle</mat-label>
+        <input matInput [(ngModel)]="newProduit.libelle" />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="matformfield">
+        <mat-label>Prix d'achat</mat-label>
+        <input matInput [(ngModel)]="newProduit.prixAchat" />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="matformfield">
+        <mat-label>Prix de vente</mat-label>
+        <input matInput [(ngModel)]="newProduit.prixVente" />
+      </mat-form-field>
+
+      <h4>Basic mat-select</h4>
+      <mat-form-field>
+        <mat-label>Unite</mat-label>
+        <mat-select [(value)]="selectedUnite">
+          <mat-option *ngFor="let unite of Unites" [value]="unite.id">
+            {{unite.libelle}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Categorie</mat-label>
+        <mat-select [(value)]="selectedCategorie">
+          <mat-option *ngFor="let categorie of Categories" [value]="categorie.id">
+            {{categorie.libelle}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-primary" (click)="addProduit()">Save</button>
+      <button class="btn btn-danger" (click)="onAdding = false">Cancel</button>
+    </div>
+  </div>
+
+  <div class="mat-elevation-z8 clients-table-container">
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 clients-table">
+      
+      <!-- Reference Column -->
+      <ng-container matColumnDef="reference">
+        <th mat-header-cell *matHeaderCellDef class="bordered-cell" mat-sort-header>Reference</th>
+        <td mat-cell *matCellDef="let produit" class="bordered-cell">
+          {{produit.reference}}
+          <input *ngIf="produit.onediting" [(ngModel)]="editedProduit.reference">
+        </td>
+      </ng-container>
+
+      <!-- Libelle Column -->
+      <ng-container matColumnDef="libelle">
+        <th mat-header-cell *matHeaderCellDef class="bordered-cell">Libelle</th>
+        <td mat-cell *matCellDef="let produit" class="bordered-cell">
+          {{produit.libelle}}
+          <input *ngIf="produit.onediting" [(ngModel)]="editedProduit.libelle">
+        </td>
+      </ng-container>
+
+      <!-- Prix d'achat Column -->
+      <ng-container matColumnDef="prix-achat">
+        <th mat-header-cell *matHeaderCellDef class="bordered-cell">Prix d'achat</th>
+        <td mat-cell *matCellDef="let produit" class="bordered-cell">
+          {{produit.prixAchat | rightCurrency:'MAD'}}
+          <input *ngIf="produit.onediting" [(ngModel)]="editedProduit.prixAchat">
+        </td>
+      </ng-container>
+
+      <!-- Prix de vente Column -->
+      <ng-container matColumnDef="prix-vente">
+        <th mat-header-cell *matHeaderCellDef class="bordered-cell">Prix de vente</th>
+        <td mat-cell *matCellDef="let produit" class="bordered-cell">
+          {{produit.prixVente | rightCurrency:'MAD'}}
+          <input *ngIf="produit.onediting" [(ngModel)]="editedProduit.prixVente">
+        </td>
+      </ng-container>
+
+      <!-- Unite Column -->
+      <ng-container matColumnDef="unite">
+        <th mat-header-cell *matHeaderCellDef class="bordered-cell">Unite</th>
+        <td mat-cell *matCellDef="let produit" class="bordered-cell">
+          {{getUnite(produit.unite)}}
+        </td>
+      </ng-container>
+
+      <!-- Categorie Column -->
+      <ng-container matColumnDef="categorie">
+        <th mat-header-cell *matHeaderCellDef class="bordered-cell">Categorie</th>
+        <td mat-cell *matCellDef="let produit" class="bordered-cell">
+          {{getCategorie(produit.categorie)}}
+        </td>
+      </ng-container>
+
+      <!-- Options Column -->
+      <ng-container matColumnDef="options">
+        <th mat-header-cell *matHeaderCellDef class="bordered-cell">Options</th>
+        <td mat-cell *matCellDef="let client" class="bordered-cell">
+          <button class="btn btn-outline-primary btn-sm" *ngIf="client.onediting" (click)="editProduit(client)">
+            <i class="bi bi-floppy"></i> Save
+          </button>
+          <button class="btn btn-outline-success btn-sm" (click)="onEditing(client)">
+            <i class="bi bi-pencil-square"></i> Edit
+          </button>
+          <button type="button" class="btn btn-outline-danger btn-sm" (click)="deleteProduit(client)">
+            <i class="bi bi-trash3-fill"></i> Delete
+          </button>
+          <button class="btn btn-outline-dark btn-sm">
+            <i class="bi bi-eye"></i> Details
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements">
+    </mat-paginator>
+  </div>
+</div>

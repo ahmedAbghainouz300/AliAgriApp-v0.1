@@ -6,7 +6,7 @@ body{
   }
   
   .side-nav {
-    width: 100%;
+    width: max-content;
     background-color: #2e7d32; /* Green background */
     padding: 20px;
   }

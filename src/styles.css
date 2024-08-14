@@ -1,2 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
 @import '../node_modules/@angular/material/prebuilt-themes/indigo-pink.css'; 
+/* body{
+    background-image: url('../public/loginBackGround.jpg');
+    background-size: cover;
+} */
+body{
+    background: linear-gradient(to bottom right, white, #2e7d32);
+    height: 100vh;
+}
