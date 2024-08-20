@@ -1,10 +1,14 @@
 <div class="fournisseurs-container">
     <!-- Search and Add Fournisseur Section -->
     <div class="fournisseurs-header">
-      <mat-form-field appearance="outline" class="matformfield">
-        <mat-label>Search</mat-label>
-        <input matInput [(ngModel)]="searchTerm" (keyup)="filterchange()" />
-      </mat-form-field>
+      <div class="fournisseur-image"><img [src]="imagePath" alt="Client"></div>
+      <div class="formdiv">
+        <mat-form-field appearance="outline" class="matformfield">
+          <mat-label>Search</mat-label>
+          <input matInput [(ngModel)]="searchTerm" (keyup)="filterchange()" />
+        </mat-form-field>
+      </div>
+      
       <button class="btn btn-outline-primary add-fournisseur-btn" (click)="onAdding=!onAdding">
         <i class="bi bi-plus-circle"></i> Add Fournisseur
       </button>

@@ -1,39 +1,77 @@
 .clients-container {
   padding: 20px;
-  background-color: rgba(255, 255, 255, 0.9);
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  max-width: 100%;
+  width: 100%;
   margin: auto;
 }
 
 .clients-header {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between; /* Space out items evenly */
   align-items: center;
-  margin-bottom: 20px;
+  padding: 10px 20px;
+  background-color: #282c34; /* Dark background for a modern look */
+  border-radius: 10px; /* Smooth corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
 }
 
+/* Image styling */
+.client-image {
+  height: 90px;
+    width: 90px;
+}
+
+/* Search form container */
+.formdiv {
+  background-color: #75777b; /* Slightly lighter gray than header */
+  padding: 10px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 300px;
+  margin-right: 20px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1); /* Inner shadow for depth */
+}
+
+/* Form field styling */
 .matformfield {
   width: 100%;
-  max-width: 300px; /* Adjust the maximum width as needed */
-  margin-right: 20px; /* Add space between the search field and the button */
 }
 
+.mat-mdc-form-field {
+  border-radius: 5px;
+}
+
+/* Button styling */
 .add-client-btn {
   min-width: 150px;
   display: flex;
   align-items: center;
   justify-content: center;
+  color: white;
+  background-color: #1976d2; /* Blue background for button */
+  border-radius: 5px;
+  padding: 10px 15px;
+  transition: background-color 0.3s ease; /* Smooth transition on hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+}
+
+/* Button hover effect */
+.add-client-btn:hover {
+  background-color: #1565c0; /* Darker blue on hover */
 }
 
 .add-client-btn .bi {
   margin-right: 5px;
 }
 
+
 .add-client-form {
   margin-bottom: 30px;
-  background-color: #d4edda; /* Light green background */
+  background-color: #d4edda;
+  /* Light green background */
   padding: 15px;
   border-radius: 5px;
 }
@@ -51,7 +89,8 @@
 }
 
 .clients-table-container {
-  overflow-x: auto; /* Add horizontal scroll for small screens */
+  overflow-x: auto;
+  /* Add horizontal scroll for small screens */
 }
 
 
@@ -61,23 +100,29 @@
   font-size: 12px;
   line-height: 1.5;
   margin: 5px;
+  border: 10px;
 }
 
-.mat-mdc-cell{
+.mat-mdc-cell {
   border: 1px solid rgb(130, 130, 130);
   text-align: center;
 }
-.mat-mdc-row:nth-child(even){
-  background-color: #e3f0e6;  
-}
-.mat-mdc-header-cell{
+
+/* .mat-mdc-row:nth-child(even) {
+  background-color: #e3f0e6;
+} */
+
+.mat-mdc-header-cell {
   border: 1px solid rgb(130, 130, 130);
   text-align: center;
 }
-.mat-mdc-header-row{
+
+.mat-mdc-header-row {
   border: 1px solid rgb(130, 130, 130);
-  background-color: #56be6e;
+  background-color: #545659;
+  color: white;
 }
-.mat-mdc-paginator{
+
+.mat-mdc-paginator {
   border: 1px solid rgb(130, 130, 130);
 }

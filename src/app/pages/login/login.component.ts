@@ -1,8 +1,7 @@
-import { Component, NgModule } from '@angular/core';
-import { FormsModule, NgModel } from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { Router, RouterOutlet } from '@angular/router';
 import { DatabaseService } from '../../database.service';
-import { ElectronService } from 'ngx-electron';
 import { NgStyle } from '@angular/common';
 @Component({
   selector: 'app-login',
@@ -31,9 +30,7 @@ export class LoginComponent {
         if (user.length > 0) {
           const role = user[0].role;
           if (role === 'admin') {
-            console.log('before navigating ');
             this.router.navigate(['/admin-layout']); // Navigate to admin layout
-            console.log('admin : ', user);
           } else if (role === 'assistant') {
             this.router.navigate(['/assistant-layout']); // Navigate to assistant layout
           } else {

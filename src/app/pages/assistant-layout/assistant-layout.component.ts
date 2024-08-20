@@ -20,18 +20,6 @@ export class AssistantLayoutComponent {
     private databaseService: DatabaseService,
     private router: Router
   ) {}
-
-  async findUser() {
-    try {
-      this.users = await this.databaseService.queryDatabase(
-        `SELECT * FROM USERS WHERE id = 1`
-      );
-      console.log('finded successfully ', this.users);
-    } catch (err) {
-      console.log('error finding data', err);
-    }
-  }
-
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
   }

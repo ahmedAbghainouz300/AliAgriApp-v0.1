@@ -35,10 +35,10 @@ export interface Produit {
   selector: 'app-produits',
   standalone: true,
   imports: [
+    FormsModule,
     CommonModule,
     MatFormFieldModule,
     MatInputModule,
-    FormsModule,
     MatDividerModule,
     RightCurrencyPipe,
     MatTableModule,

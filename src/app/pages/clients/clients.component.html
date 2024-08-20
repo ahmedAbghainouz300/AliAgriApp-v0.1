@@ -1,10 +1,14 @@
 <div class="clients-container">
   <!-- Search and Add Client Section -->
   <div class="clients-header">
-    <mat-form-field appearance="outline" class="matformfield">
+    <img [src]="imagePath" alt="Client" class="client-image">
+    <div class="formdiv">
+      <mat-form-field appearance="outline" class="matformfield">
       <mat-label>Search</mat-label>
       <input matInput [(ngModel)]="searchTerm" (keyup)="filterchange()" />
     </mat-form-field>
+    </div>
+    
     <button class="btn btn-outline-primary add-client-btn" (click)="onAdding=!onAdding">
       <i class="bi bi-plus-circle"></i> Add Client
     </button>

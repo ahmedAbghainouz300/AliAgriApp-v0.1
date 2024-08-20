@@ -9,6 +9,7 @@ body{
     width: max-content;
     background-color: #2e7d32; /* Green background */
     padding: 20px;
+    height: 100%;
   }
   
   .side-nav ul {

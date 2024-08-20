@@ -3,14 +3,12 @@
     display: flex;
     justify-content: space-evenly;
     padding: 20px;
-    background-color: #e8f5e9; /* Light green background for the entire container */
 }
 
 /* Flex containers for categories and units */
 .categories-container, .units-container {
     flex: 0.45;
     padding: 20px;
-    background-color: #ffffff; /* White background for individual sections */
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -84,3 +82,27 @@ button i {
         margin-bottom: 20px;
     }
 }
+
+.mat-mdc-cell {
+    border: 1px solid rgb(130, 130, 130);
+    text-align: center;
+  }
+  
+  /* .mat-mdc-row:nth-child(even) {
+    background-color: #e3f0e6;
+  } */
+  
+  .mat-mdc-header-cell {
+    border: 1px solid rgb(130, 130, 130);
+    text-align: center;
+  }
+  
+  .mat-mdc-header-row {
+    border: 1px solid rgb(130, 130, 130);
+    background-color: #545659;
+  color: white;
+  }
+  
+  .mat-mdc-paginator {
+    border: 1px solid rgb(130, 130, 130);
+  }

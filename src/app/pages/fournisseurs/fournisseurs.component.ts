@@ -18,6 +18,7 @@ import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { RightCurrencyPipe } from '../../right-currency.pipe';
+import path from 'path';
 
 export interface Fournisseur {
   id: number;
@@ -49,6 +50,7 @@ export interface Fournisseur {
   styleUrl: './fournisseurs.component.css',
 })
 export class FournisseursComponent {
+  imagePath = path.join(__dirname, 'public/assets/R.png');
   dataSource: any;
   ngOnInit(): void {
     this.loadFournisseurs();

@@ -1,1 +1,23 @@
-<p>admin-dashboard works!</p>
+<body>
+    <div class="container"> 
+        <div class="card_container" (click)="gotoClients()"> 
+            <div class="card_text">
+                <h2>Clients</h2>
+                <h1>{{clients_count}}</h1>
+            </div>
+            <div class="card_image">
+                <img [src]="imagePath" alt="Client Image">
+            </div>
+        </div>
+        <div class="card_container" (click)="gotoFournisseurs()"> 
+            <div class="card_text">
+                <h2>Fournisseurs</h2>
+                <h1>{{fournisseurs_count}}</h1>
+            </div>
+            <div class="card_image">
+                <img [src]="imagePath" alt="Client Image">
+            </div>
+        </div>
+    </div>
+    
+</body>

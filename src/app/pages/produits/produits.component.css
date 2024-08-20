@@ -2,3 +2,26 @@
     display: flex;
     justify-content: space-evenly;
 }
+.mat-mdc-cell {
+    border: 1px solid rgb(130, 130, 130);
+    text-align: center;
+  }
+  
+  /* .mat-mdc-row:nth-child(even) {
+    background-color: #e3f0e6;
+  } */
+  
+  .mat-mdc-header-cell {
+    border: 1px solid rgb(130, 130, 130);
+    text-align: center;
+  }
+  
+  .mat-mdc-header-row {
+    border: 1px solid rgb(130, 130, 130);
+    background-color: #545659;
+  color: white;
+  }
+  
+  .mat-mdc-paginator {
+    border: 1px solid rgb(130, 130, 130);
+  }
