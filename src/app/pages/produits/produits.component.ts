@@ -21,6 +21,7 @@ import { RightCurrencyPipe } from '../../right-currency.pipe';
 import { MatSelectModule } from '@angular/material/select';
 import { Categorie } from '../categories/categories.component';
 import { Unite } from '../categories/categories.component';
+import path from 'path';
 export interface Produit {
   id: number;
   reference: string;
@@ -58,8 +59,10 @@ export class ProduitsComponent implements OnInit, AfterViewInit {
       this.dataSource.sort = this.sort;
     }
   }
+  imagePath = path.join(__dirname, 'public/assets/productIcon.png');
   Categories: Categorie[] = [];
   Unites: Unite[] = [];
+  Editing: boolean = false;
   async loadCategories() {
     try {
       const categories = await this.databaseservise.queryDatabase(
@@ -202,6 +205,7 @@ export class ProduitsComponent implements OnInit, AfterViewInit {
       // Copy client data to newClient
       this.editedProduit = { ...produit };
       produit.onediting = true;
+      this.Editing = true;
       this.onAdding = false;
     } else {
       produit.onediting = false;

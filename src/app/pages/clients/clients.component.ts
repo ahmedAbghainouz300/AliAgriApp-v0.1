@@ -58,6 +58,7 @@ export class ClientsComponent implements OnInit, AfterViewInit {
   searchTerm: string = '';
   clients: Client[] = [];
   onAdding: boolean = false;
+  Editing: boolean = false;
   editedClient: Client = {
     id: 0,
     cin: '',

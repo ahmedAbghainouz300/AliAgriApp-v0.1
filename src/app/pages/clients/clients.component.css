@@ -1,3 +1,4 @@
+
 .clients-container {
   padding: 20px;
   border-radius: 10px;
@@ -22,18 +23,6 @@
     width: 90px;
 }
 
-/* Search form container */
-.formdiv {
-  background-color: #75777b; /* Slightly lighter gray than header */
-  padding: 10px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  width: 100%;
-  max-width: 300px;
-  margin-right: 20px;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1); /* Inner shadow for depth */
-}
 
 /* Form field styling */
 .matformfield {
@@ -70,8 +59,7 @@
 
 .add-client-form {
   margin-bottom: 30px;
-  background-color: #d4edda;
-  /* Light green background */
+  background-color: #282c34; /* Dark background for a modern look */
   padding: 15px;
   border-radius: 5px;
 }

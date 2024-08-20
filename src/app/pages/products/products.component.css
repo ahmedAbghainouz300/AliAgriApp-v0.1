@@ -7,9 +7,9 @@ body{
   
   .side-nav {
     width: max-content;
-    background-color: #2e7d32; /* Green background */
+    background-color: #2e7d32; 
     padding: 20px;
-    height: 100%;
+    min-height: 100vh;
   }
   
   .side-nav ul {

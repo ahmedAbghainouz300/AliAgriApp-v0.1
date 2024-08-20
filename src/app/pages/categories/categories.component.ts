@@ -63,6 +63,7 @@ export class CategoriesComponent implements OnInit, AfterViewInit {
   };
   Categories: Categorie[] = [];
   categorieOnAdding: boolean = false;
+  categorieEditing: boolean = false;
   ngOnInit(): void {
     this.loadCategories();
     this.loadUnites();
@@ -116,6 +117,7 @@ export class CategoriesComponent implements OnInit, AfterViewInit {
       // Copy client data to newClient
       this.editedCategorie = { ...categorie };
       categorie.onediting = true;
+      this.categorieEditing = true;
       this.categorieOnAdding = false;
     } else {
       categorie.onediting = false;
@@ -186,6 +188,7 @@ WHERE id = ?`,
   Unites: Unite[] = [];
 
   uniteOnAdding: boolean = false;
+  uniteEditing: boolean = false;
   uniteSearchTerm: string = '';
   async loadUnites() {
     try {
@@ -228,6 +231,7 @@ WHERE id = ?`,
       // Copy client data to newClient
       this.editedUnite = { ...unite };
       unite.onediting = true;
+      this.uniteEditing = true;
       this.uniteOnAdding = false;
     } else {
       unite.onediting = false;

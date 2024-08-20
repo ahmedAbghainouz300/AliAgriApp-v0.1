@@ -1,10 +1,13 @@
 <div class="products-container">
   <!-- Search and Add Product Section -->
   <div class="products-header">
-    <mat-form-field appearance="outline" class="matformfield">
+    <div class="product-image"><img [src]="imagePath" alt="Client"></div>
+    <div class="formdiv">
+      <mat-form-field appearance="outline" class="matformfield">
       <mat-label>Search</mat-label>
       <input matInput [(ngModel)]="searchTerm" (keyup)="filterchange()" />
     </mat-form-field>
+    </div>
     <button class="btn btn-outline-primary add-client-btn" (click)="onAdding=!onAdding">
       <i class="bi bi-plus-circle"></i> Add Product
     </button>
@@ -30,7 +33,6 @@
         <input matInput [(ngModel)]="newProduit.prixVente" />
       </mat-form-field>
 
-      <h4>Basic mat-select</h4>
       <mat-form-field>
         <mat-label>Unite</mat-label>
         <mat-select [(value)]="selectedUnite">
@@ -113,18 +115,21 @@
       <!-- Options Column -->
       <ng-container matColumnDef="options">
         <th mat-header-cell *matHeaderCellDef class="bordered-cell">Options</th>
-        <td mat-cell *matCellDef="let client" class="bordered-cell">
-          <button class="btn btn-outline-primary btn-sm" *ngIf="client.onediting" (click)="editProduit(client)">
+        <td mat-cell *matCellDef="let produit" class="bordered-cell">
+          <button class="btn btn-outline-primary btn-sm" *ngIf="produit.onediting && Editing" (click)="editProduit(produit)">
             <i class="bi bi-floppy"></i> Save
           </button>
-          <button class="btn btn-outline-success btn-sm" (click)="onEditing(client)">
+          <button *ngIf="!produit.onediting && !Editing" class="btn btn-outline-success btn-sm" (click)="onEditing(produit)">
             <i class="bi bi-pencil-square"></i> Edit
           </button>
-          <button type="button" class="btn btn-outline-danger btn-sm" (click)="deleteProduit(client)">
+          <button *ngIf="produit.onediting &&!Editing" type="button" class="btn btn-outline-danger btn-sm" (click)="deleteProduit(produit)">
             <i class="bi bi-trash3-fill"></i> Delete
           </button>
-          <button class="btn btn-outline-dark btn-sm">
+          <!-- <button class="btn btn-outline-dark btn-sm">
             <i class="bi bi-eye"></i> Details
+          </button> -->
+          <button *ngIf="produit.onediting && Editing" type="button" class="btn btn-outline-danger btn-sm" (click)="produit.onediting = false ; Editing = false">
+            <i class="bi bi-trash3-fill"></i> Cancel
           </button>
         </td>
       </ng-container>

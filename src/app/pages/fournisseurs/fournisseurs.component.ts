@@ -59,6 +59,7 @@ export class FournisseursComponent {
   searchTerm: string = '';
   fournisseurs: Fournisseur[] = [];
   onAdding: boolean = false;
+  Editing: boolean = false;
   editedFournisseur: Fournisseur = {
     id: 0,
     cin: '',

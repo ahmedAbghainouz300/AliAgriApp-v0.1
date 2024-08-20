@@ -1,16 +1,30 @@
 /* General container styles */
 .container {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     padding: 20px;
+    gap: 20px; /* Space between the two containers */
 }
 
-/* Flex containers for categories and units */
-.categories-container, .units-container {
-    flex: 0.45;
+/* Flex containers for categories and unites */
+.categories-container, .unites-container {
+    flex: 1; /* Equal flex for both containers */
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Adjust flex behavior for smaller screens */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .categories-container, .unites-container {
+        width: 100%;
+        margin-bottom: 20px;
+    }
 }
 
 /* Styling for headers */
@@ -26,29 +40,25 @@
     width: 50%;
 }
 
-/* Add button styling */
-.add-item-btn {
+.add_item{
+    min-width: 150px;
     display: flex;
     align-items: center;
-    background-color: #4caf50;
-    font-size: small; 
-    color: #ffffff;
-    width: 20%;
-}
-
-.add-item-btn i {
-    margin-right: 5px;
-}
+    justify-content: center;
+    color: white;
+    background-color: #1976d2; /* Blue background for button */
+    border-radius: 5px;
+    padding: 10px 15px;
+    transition: background-color 0.3s ease; /* Smooth transition on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+  }
+  .add_item:hover{
+    background-color: #1565c0; /* Darker blue on hover */
+  }
 
 /* Styling for table container */
 .table-container {
     margin-top: 20px;
-}
-
-/* Styling for mat-elevation-z8 class */
-.mat-elevation-z8 {
-    background-color: #ffffff;
-    border-radius: 5px;
 }
 
 /* Cell border styling */
@@ -56,7 +66,7 @@
     border-bottom: 1px solid #ddd;
     padding: 8px;
     text-align: left;
-}
+} 
 
 /* Button styling */
 button {
@@ -69,40 +79,23 @@ button i {
     margin-right: 5px;
 }
 
-/* Flexbox properties for responsive layout */
-@media (max-width: 768px) {
-    .container {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .categories-container, .units-container {
-        flex: 1;
-        width: 100%;
-        margin-bottom: 20px;
-    }
-}
-
+/* Table styling */
 .mat-mdc-cell {
     border: 1px solid rgb(130, 130, 130);
     text-align: center;
-  }
-  
-  /* .mat-mdc-row:nth-child(even) {
-    background-color: #e3f0e6;
-  } */
-  
-  .mat-mdc-header-cell {
+}
+
+.mat-mdc-header-cell {
     border: 1px solid rgb(130, 130, 130);
     text-align: center;
-  }
-  
-  .mat-mdc-header-row {
+}
+
+.mat-mdc-header-row {
     border: 1px solid rgb(130, 130, 130);
     background-color: #545659;
-  color: white;
-  }
-  
-  .mat-mdc-paginator {
+    color: white;
+}
+
+.mat-mdc-paginator {
     border: 1px solid rgb(130, 130, 130);
-  }
+}

@@ -1,27 +1,98 @@
-.products-header{
-    display: flex;
-    justify-content: space-evenly;
+.products-container {
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: auto;
 }
-.mat-mdc-cell {
-    border: 1px solid rgb(130, 130, 130);
-    text-align: center;
-  }
-  
-  /* .mat-mdc-row:nth-child(even) {
-    background-color: #e3f0e6;
-  } */
-  
-  .mat-mdc-header-cell {
-    border: 1px solid rgb(130, 130, 130);
-    text-align: center;
-  }
-  
-  .mat-mdc-header-row {
-    border: 1px solid rgb(130, 130, 130);
-    background-color: #545659;
+
+.products-header {
+  display: flex;
+  justify-content: space-between; /* Space out items evenly */
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #282c34; /* Dark background for a modern look */
+  border-radius: 10px; /* Smooth corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+}
+
+/* Image styling */
+.product-image img {
+  height: 90px;
+  width: 90px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+/* Form field styling */
+.matformfield {
+  width: 100%;
+}
+
+.mat-mdc-form-field {
+  border-radius: 5px;
+}
+
+/* Button styling */
+.add-client-btn {
+  min-width: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: white;
-  }
-  
-  .mat-mdc-paginator {
-    border: 1px solid rgb(130, 130, 130);
-  }
+  background-color: #1976d2; /* Blue background for button */
+  border-radius: 5px;
+  padding: 10px 15px;
+  transition: background-color 0.3s ease; /* Smooth transition on hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+}
+
+/* Button hover effect */
+.add-client-btn:hover {
+  background-color: #1565c0; /* Darker blue on hover */
+}
+
+.add-client-btn .bi {
+  margin-right: 5px;
+}
+
+.add-client-form {
+  margin-bottom: 30px;
+  background-color: #282c34; /* Dark background for a modern look */
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.products-table-container {
+  overflow-x: auto; /* Add horizontal scroll for small screens */
+}
+
+.products-table .btn-sm {
+  padding: 2px 5px;
+  font-size: 12px;
+  line-height: 1.5;
+  margin: 5px;
+}
+
+.mat-mdc-cell {
+  border: 1px solid rgb(130, 130, 130);
+  text-align: center;
+}
+
+.mat-mdc-header-cell {
+  border: 1px solid rgb(130, 130, 130);
+  text-align: center;
+}
+
+.mat-mdc-header-row {
+  border: 1px solid rgb(130, 130, 130);
+  background-color: #545659;
+  color: white;
+}
+
+.mat-mdc-paginator {
+  border: 1px solid rgb(130, 130, 130);
+}
