@@ -1,1 +1,93 @@
-<p>factures works!</p>
+<div class="container">
+  <div class="transaction-selection">
+    <mat-form-field appearance="outline">
+      <mat-label>Type de transaction</mat-label>
+      <mat-select [(ngModel)]="transaction">
+        <mat-option *ngFor="let transaction of transactions" [value]="transaction">
+          {{ transaction }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline" *ngIf="transaction === 'Achat'">
+      <mat-label>Fournisseur</mat-label>
+      <mat-select [(ngModel)]="fournisseur">
+        <mat-option *ngFor="let fournisseur of fournisseurs" [value]="fournisseur">
+          {{ fournisseur.nom }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline" *ngIf="transaction === 'Vente'">
+      <mat-label>Client</mat-label>
+      <mat-select [(ngModel)]="client">
+        <mat-option *ngFor="let client of clients" [value]="client">
+          {{ client.nom }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  
+  <div class="content" *ngIf="transaction === 'Achat' || transaction === 'Vente'">
+    <div class="selection">
+      <div class="produitselection">
+        <mat-form-field appearance="outline">
+          <mat-label>Produit</mat-label>
+          <mat-select [(ngModel)]="selectedProduit">
+            <mat-option *ngFor="let produit of produits" [value]="produit.libelle">
+              {{ produit.libelle }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" floatLabel="always">
+          <mat-label>Prix</mat-label>
+          <input matInput type="number" min="0" [(ngModel)]="prix" placeholder="0" />
+          <span matTextPrefix>MAD&nbsp;</span>
+        </mat-form-field>
+        <mat-form-field appearance="outline" floatLabel="always">
+          <mat-label>Unite</mat-label>
+          <input matInput type="number" min="1" [(ngModel)]="quantite" placeholder="1" />
+        </mat-form-field>
+      </div>
+      <button mat-raised-button color="success" (click)="ajouterProduit()">Ajouter</button>
+    </div>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Produit</th>
+            <th>Prix</th>
+            <th>Quantité</th>
+            <th>Total</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of selectedProduits">
+            <td>{{ item.produit.libelle }}</td>
+            <td>{{ item.prix }}</td>
+            <td>{{ item.quantite }}</td>
+            <td>{{ item.total }}</td>
+            <td><button (click)="supprimerProduit(item)">Supprimer</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="payement" *ngIf="transaction === 'payement(client)' || transaction === 'payement(fournisseur)'">
+    <mat-form-field appearance="outline" *ngIf="transaction === 'payement(fournisseur)'">
+      <mat-label>Fournisseur</mat-label>
+      <mat-select [(ngModel)]="fournisseur">
+        <mat-option *ngFor="let fournisseur of fournisseurs" [value]="fournisseur">
+          {{ fournisseur.nom }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline" *ngIf="transaction === 'payement(client)'">
+      <mat-label>Client</mat-label>
+      <mat-select [(ngModel)]="client">
+        <mat-option *ngFor="let client of clients" [value]="client">
+          {{ client.nom }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</div>

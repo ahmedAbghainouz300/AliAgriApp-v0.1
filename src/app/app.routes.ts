@@ -13,6 +13,9 @@ import { AssistantDashboardComponent } from './pages/assistant-dashboard/assista
 import { AssistantLayoutComponent } from './pages/assistant-layout/assistant-layout.component';
 import { CategoriesComponent } from './pages/categories/categories.component';
 import { ProduitsComponent } from './pages/produits/produits.component';
+import { PayementComponent } from './pages/payement/payement.component';
+import { TransactionsComponent } from './pages/transactions/transactions.component';
+import { StocksComponent } from './pages/stocks/stocks.component';
 
 export const routes: Routes = [
   {
@@ -37,17 +40,26 @@ export const routes: Routes = [
           { path: '', redirectTo: 'produits', pathMatch: 'full' },
         ],
       },
-      { path: 'ventes', component: SalesComponent },
-      { path: 'achats', component: PurshasesComponent },
+      {
+        path: 'transactions',
+        component: TransactionsComponent,
+        children: [
+          { path: 'ventes', component: SalesComponent },
+          { path: 'achats', component: PurshasesComponent },
+          { path: 'payement', component: PayementComponent },
+          { path: '', redirectTo: 'ventes', pathMatch: 'full' },
+        ],
+      },
+      { path: 'stocks', component: StocksComponent },
       { path: 'factures', component: FacturesComponent },
-      { path: '', redirectTo: 'admin-dashboard', pathMatch: 'full' }, // Default route for admin-layout
+      { path: '', redirectTo: 'admin-dashboard', pathMatch: 'full' },
     ],
   },
   {
     path: 'assistant-layout',
     component: AssistantLayoutComponent,
     children: [
-      { path: 'admin-dashboard', component: AdminDashboardComponent },
+      { path: 'assistant-dashboard', component: AssistantDashboardComponent },
       {
         path: 'products',
         component: ProductsComponent,
@@ -57,10 +69,19 @@ export const routes: Routes = [
           { path: '', redirectTo: 'produits', pathMatch: 'full' },
         ],
       },
-      { path: 'ventes', component: SalesComponent },
-      { path: 'achats', component: PurshasesComponent },
+      {
+        path: 'transactions',
+        component: TransactionsComponent,
+        children: [
+          { path: 'ventes', component: SalesComponent },
+          { path: 'achats', component: PurshasesComponent },
+          { path: 'payement', component: PayementComponent },
+          { path: '', redirectTo: 'ventes', pathMatch: 'full' },
+        ],
+      },
+      { path: 'stocks', component: StocksComponent },
       { path: 'factures', component: FacturesComponent },
-      { path: '', redirectTo: 'admin-dashboard', pathMatch: 'full' },
+      { path: '', redirectTo: 'assistant-dashboard', pathMatch: 'full' },
     ],
   },
 ];

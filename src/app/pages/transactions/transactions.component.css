@@ -1,0 +1,40 @@
+body{
+    font-size: 15px;
+}
+.products-container {
+    display: flex;
+  }
+  
+  .side-nav {
+    width: max-content;
+    background-color: #2e7d32; 
+    padding: 20px;
+    min-height: 100vh;
+  }
+  
+  .side-nav ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .side-nav li {
+    margin-bottom: 10px;
+    width: max-content; 
+  }
+  
+  .side-nav a {
+    color: white;
+    text-decoration: none;
+    font-size: medium;
+  }
+  
+  .side-nav .active-link {
+    font-weight: bold;
+    color: #ffeb3b; /* Highlight color */
+  }
+  
+  .content {
+    flex-grow: 1;
+    padding: 20px;
+  }
+  

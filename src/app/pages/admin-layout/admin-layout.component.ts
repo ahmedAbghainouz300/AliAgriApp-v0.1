@@ -32,17 +32,6 @@ export class AdminLayoutComponent {
     private databaseService: DatabaseService
   ) {}
 
-  async findUser() {
-    try {
-      this.users = await this.databaseService.queryDatabase(
-        `SELECT * FROM USERS WHERE id = 1`
-      );
-      console.log('finded succesfully ', this.users);
-    } catch (err) {
-      console.log('error finding data', err);
-    }
-  }
-
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
   }

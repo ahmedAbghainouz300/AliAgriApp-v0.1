@@ -16,7 +16,7 @@
     <div *ngIf="categorieOnAdding" class="add-item-form">
       <mat-form-field appearance="outline" class="matformfield">
         <mat-label>Categorie</mat-label>
-        <input matInput [(ngModel)]="newCategorie.libelle" />
+        <input matInput [(ngModel)]="newCategorie.libelle"/>
       </mat-form-field>
       <div class="form-actions">
         <button class="btn btn-primary" (click)="addCategorie()">Save</button>
