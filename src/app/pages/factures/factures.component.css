@@ -28,8 +28,16 @@
 }
 
 .table-container {
+  background-color: #fff;
   flex: 2;
   overflow-x: auto;
+}
+
+.total{
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  justify-content: space-between;
 }
 
 table {

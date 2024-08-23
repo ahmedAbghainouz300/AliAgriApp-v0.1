@@ -2,7 +2,7 @@
   <div class="transaction-selection">
     <mat-form-field appearance="outline">
       <mat-label>Type de transaction</mat-label>
-      <mat-select [(ngModel)]="transaction">
+      <mat-select [(ngModel)]="transaction" [disabled]="disableButtons()">
         <mat-option *ngFor="let transaction of transactions" [value]="transaction">
           {{ transaction }}
         </mat-option>
@@ -10,7 +10,7 @@
     </mat-form-field>
     <mat-form-field appearance="outline" *ngIf="transaction === 'Achat'">
       <mat-label>Fournisseur</mat-label>
-      <mat-select [(ngModel)]="fournisseur">
+      <mat-select [(value)]="selectedFournisseur" [disabled]="disableButtons()">
         <mat-option *ngFor="let fournisseur of fournisseurs" [value]="fournisseur">
           {{ fournisseur.nom }}
         </mat-option>
@@ -18,7 +18,7 @@
     </mat-form-field>
     <mat-form-field appearance="outline" *ngIf="transaction === 'Vente'">
       <mat-label>Client</mat-label>
-      <mat-select [(ngModel)]="client">
+      <mat-select [(value)]="selectedClient" [disabled]="disableButtons()">
         <mat-option *ngFor="let client of clients" [value]="client">
           {{ client.nom }}
         </mat-option>
@@ -31,8 +31,8 @@
       <div class="produitselection">
         <mat-form-field appearance="outline">
           <mat-label>Produit</mat-label>
-          <mat-select [(ngModel)]="selectedProduit">
-            <mat-option *ngFor="let produit of produits" [value]="produit.libelle">
+          <mat-select [(value)]="selectedProduit">
+            <mat-option *ngFor="let produit of produits" [value]="produit">
               {{ produit.libelle }}
             </mat-option>
           </mat-select>
@@ -63,27 +63,32 @@
         <tbody>
           <tr *ngFor="let item of selectedProduits">
             <td>{{ item.produit.libelle }}</td>
-            <td>{{ item.prix }}</td>
-            <td>{{ item.quantite }}</td>
-            <td>{{ item.total }}</td>
+            <td>{{ item.prix | rightCurrency}}</td>
+            <td>{{ item.quantite | rightCurrency}}</td>
+            <td>{{ item.total | rightCurrency}}</td>
             <td><button (click)="supprimerProduit(item)">Supprimer</button></td>
           </tr>
         </tbody>
       </table>
+      <div class="total">
+        Total = " {{getTotal() | rightCurrency}} "
+      <button mat-raised-button color="success" (click)="enregistrerFacture()">Enregistrer</button>
+      </div>
+       
     </div>
   </div>
   <div class="payement" *ngIf="transaction === 'payement(client)' || transaction === 'payement(fournisseur)'">
     <mat-form-field appearance="outline" *ngIf="transaction === 'payement(fournisseur)'">
       <mat-label>Fournisseur</mat-label>
-      <mat-select [(ngModel)]="fournisseur">
+      <mat-select [(value)]="selectedFournisseur">
         <mat-option *ngFor="let fournisseur of fournisseurs" [value]="fournisseur">
           {{ fournisseur.nom }}
         </mat-option>
-      </mat-select>
+      </mat-select>c
     </mat-form-field>
     <mat-form-field appearance="outline" *ngIf="transaction === 'payement(client)'">
       <mat-label>Client</mat-label>
-      <mat-select [(ngModel)]="client">
+      <mat-select [(value)]="selectedClient">
         <mat-option *ngFor="let client of clients" [value]="client">
           {{ client.nom }}
         </mat-option>

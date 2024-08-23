@@ -46,7 +46,7 @@ export class FacturesComponent implements OnInit {
     'payement(fournisseur)',
   ];
   transaction: string = 'Vente';
-
+  description: string = '';
   async loadProduits() {
     try {
       const produits = await this.databaseservice.queryDatabase(
@@ -62,7 +62,7 @@ export class FacturesComponent implements OnInit {
     }
   }
   fournisseurs: Fournisseur[] = [];
-  fournisseur: Fournisseur = this.fournisseurs[0];
+  selectedFournisseur: Fournisseur = this.fournisseurs[0];
   async loadFournisseurs() {
     try {
       const fournisseurs = await this.databaseservice.queryDatabase(
@@ -80,7 +80,7 @@ export class FacturesComponent implements OnInit {
   }
 
   clients: Client[] = [];
-  client: Client = this.clients[0];
+  selectedClient: Client = this.clients[0];
   async loadClients() {
     try {
       const clients = await this.databaseservice.queryDatabase(
@@ -105,7 +105,11 @@ export class FacturesComponent implements OnInit {
     quantite: number;
     total: number;
   }[] = [];
-
+  disabledButtons: boolean = false;
+  disableButtons() {
+    this.disabledButtons = this.selectedProduits.length != 0;
+    return this.disabledButtons;
+  }
   ajouterProduit() {
     if (this.selectedProduit && this.prix > 0 && this.quantite > 0) {
       // Find the full product object based on the selectedProduit's libelle
@@ -138,6 +142,36 @@ export class FacturesComponent implements OnInit {
     const index = this.selectedProduits.indexOf(produit);
     if (index > -1) {
       this.selectedProduits.splice(index, 1);
+    }
+  }
+
+  total: number = 0;
+  getTotal(): number {
+    this.total = this.selectedProduits.reduce(
+      (accumulator, current) => accumulator + current.total,
+      0
+    );
+    return this.total;
+  }
+  enregistrerFacture() {
+    if (this.transaction === 'Vente') {
+      try {
+        this.databaseservice.queryDatabase(
+          'INSERT INTO ventes(description,clientId,total) VALUES(?,?,?)',
+          [this.description, this.selectedClient.id, this.total]
+        );
+      } catch (err) {
+        alert('error adding facture');
+      }
+    } else if (this.transaction === 'Achat') {
+      try {
+        this.databaseservice.queryDatabase(
+          'INSERT INTO achats(description,fournisseurId,total) VALUES(?,?,?)',
+          [this.description, this.selectedFournisseur.id, this.total]
+        );
+      } catch (err) {
+        alert('error adding facture');
+      }
     }
   }
 }
