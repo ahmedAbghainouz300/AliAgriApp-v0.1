@@ -14,6 +14,8 @@ import { MatButton } from '@angular/material/button';
 import { MatInput } from '@angular/material/input';
 import { Fournisseur } from '../fournisseurs/fournisseurs.component';
 import { Client } from '../clients/clients.component';
+import Swal from 'sweetalert2';
+
 @Component({
   selector: 'app-factures',
   standalone: true,
@@ -111,30 +113,35 @@ export class FacturesComponent implements OnInit {
     return this.disabledButtons;
   }
   ajouterProduit() {
-    if (this.selectedProduit && this.prix > 0 && this.quantite > 0) {
-      // Find the full product object based on the selectedProduit's libelle
-      const produit = this.produits.find(
-        (p) => p.libelle === this.selectedProduit.libelle
-      );
-
-      if (produit) {
-        const total = this.prix * this.quantite;
-        this.selectedProduits.push({
-          produit: produit,
-          prix: this.prix,
-          quantite: this.quantite,
-          total: total,
-        });
-
-        // Reset fields after adding the product
-        this.selectedProduit = this.produits[0]; // Adjust as needed
-        this.prix = 0;
-        this.quantite = 1;
-      } else {
-        alert('Selected product is not found.');
-      }
+    if (!this.selectedClient && !this.selectedFournisseur) {
+      alert('veuillez selectionner tous les champs .');
+      return;
     } else {
-      alert('Please fill out all fields correctly.');
+      if (this.selectedProduit && this.prix > 0 && this.quantite > 0) {
+        // Find the full product object based on the selectedProduit's libelle
+        const produit = this.produits.find(
+          (p) => p.libelle === this.selectedProduit.libelle
+        );
+
+        if (produit) {
+          const total = this.prix * this.quantite;
+          this.selectedProduits.push({
+            produit: produit,
+            prix: this.prix,
+            quantite: this.quantite,
+            total: total,
+          });
+
+          // Reset fields after adding the product
+          this.selectedProduit = this.produits[0]; // Adjust as needed
+          this.prix = 0;
+          this.quantite = 1;
+        } else {
+          alert('Selected product is not found.');
+        }
+      } else {
+        alert('Please fill out all fields correctly.');
+      }
     }
   }
 
@@ -153,25 +160,79 @@ export class FacturesComponent implements OnInit {
     );
     return this.total;
   }
-  enregistrerFacture() {
-    if (this.transaction === 'Vente') {
-      try {
-        this.databaseservice.queryDatabase(
-          'INSERT INTO ventes(description,clientId,total) VALUES(?,?,?)',
-          [this.description, this.selectedClient.id, this.total]
+  async enregistrerVente() {
+    try {
+      await this.databaseservice.queryDatabase(
+        'INSERT INTO ventes(description, clientId, total) VALUES(?, ?, ?)',
+        [this.description, this.selectedClient.id, this.total]
+      );
+
+      const idSale = await this.getSaleId();
+      console.log('sale id:', idSale);
+
+      this.selectedProduits.forEach(async (produit) => {
+        await this.databaseservice.queryDatabase(
+          'INSERT INTO facturesvente (ProduitId, venteId, quantite, prix) VALUES (?, ?, ?, ?)',
+          [produit.produit.id, idSale, produit.quantite, produit.prix]
         );
-      } catch (err) {
-        alert('error adding facture');
-      }
-    } else if (this.transaction === 'Achat') {
-      try {
-        this.databaseservice.queryDatabase(
-          'INSERT INTO achats(description,fournisseurId,total) VALUES(?,?,?)',
-          [this.description, this.selectedFournisseur.id, this.total]
-        );
-      } catch (err) {
-        alert('error adding facture');
-      }
+      });
+      console.log('ok');
+    } catch (err) {
+      alert('Error adding facture' + err);
     }
+    this.showSuccessAlert();
+    this.selectedProduits = [];
+  }
+
+  async enregistrerAchat() {
+    try {
+      await this.databaseservice.queryDatabase(
+        'INSERT INTO achats(description, fournisseurId, total) VALUES(?, ?, ?)',
+        [this.description, this.selectedFournisseur.id, this.total]
+      );
+
+      const idSale = await this.getSaleId();
+      console.log('achat id:', idSale);
+
+      this.selectedProduits.forEach(async (produit) => {
+        await this.databaseservice.queryDatabase(
+          'INSERT INTO facturesachat (ProduitId, achatId, quantite, prix) VALUES (?, ?, ?, ?)',
+          [produit.produit.id, idSale, produit.quantite, produit.prix]
+        );
+      });
+    } catch (err) {
+      alert('Veuillez remplir et selectionner tous les champs');
+    }
+    this.showSuccessAlert();
+    this.selectedProduits = [];
+  }
+
+  async getSaleId() {
+    try {
+      const result = await this.databaseservice.queryDatabase(
+        'SELECT last_insert_rowid() as IdSale'
+      );
+      const idSale = result[0].IdSale;
+      console.log('sale id:', idSale);
+      return idSale;
+    } catch (err) {
+      console.log('Error retrieving sale id');
+      throw err;
+    }
+  }
+  enregistrerfacture() {
+    if (this.transaction === 'Vente') {
+      this.enregistrerVente();
+    } else if (this.transaction === 'Achat') {
+      this.enregistrerAchat();
+    }
+  }
+  showSuccessAlert() {
+    Swal.fire({
+      icon: 'success',
+      title: 'Success!',
+      text: 'Your action was successful!',
+      confirmButtonText: 'OK',
+    });
   }
 }

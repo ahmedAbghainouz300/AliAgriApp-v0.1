@@ -1,5 +1,101 @@
-<body>
-    <div class="container">
-        <button class="bi bi-plus-circle">saisir vente</button>
+<div class="fournisseurs-container" *ngIf="!showingDetails">
+    <!-- Search and Add Fournisseur Section -->
+    <div class="fournisseurs-header">
+        <div class="fournisseur-image"><img [src]="imagePath" alt="Client"></div>
+        <div class="formdiv">
+            <mat-form-field appearance="outline" class="matformfield">
+                <mat-label>Search</mat-label>
+                <input matInput [(ngModel)]="searchTerm" (keyup)="filterchange()" />
+            </mat-form-field>
+        </div>
     </div>
-</body>
+    <mat-divider style="margin: 10px 0;"></mat-divider>
+    <div class="mat-elevation-z8 fournisseurs-table-container">
+        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 fournisseurs-table">
+
+            <!-- CIN Column -->
+            <ng-container matColumnDef="no">
+                <th mat-header-cell *matHeaderCellDef class="bordered-cell"> NO </th>
+                <td mat-cell *matCellDef="let vente" class="bordered-cell">
+                    {{vente.id}}
+                </td>
+            </ng-container>
+
+            <!-- Date d'ajout Column -->
+            <ng-container matColumnDef="date">
+                <th mat-header-cell *matHeaderCellDef class="bordered-cell"> Date de vente </th>
+                <td mat-cell *matCellDef="let vente" class="bordered-cell">
+                    {{vente.dateVente | date}}
+                </td>
+            </ng-container>
+
+            <!-- Telephone Column -->
+            <ng-container matColumnDef="client">
+                <th mat-header-cell *matHeaderCellDef class="bordered-cell"> Client </th>
+                <td mat-cell *matCellDef="let vente" class="bordered-cell">
+                    {{getClientById(vente.clientId)}}
+                </td>
+            </ng-container>
+
+             <!-- Credit Column -->
+            <ng-container matColumnDef="total">
+                <th mat-header-cell *matHeaderCellDef class="bordered-cell"> Total </th>
+                <td mat-cell *matCellDef="let vente" class="bordered-cell">
+                    {{vente.total | rightCurrency:'MAD' }}
+                </td>
+            </ng-container>
+
+            <!-- Options Column -->
+            <ng-container matColumnDef="option">
+                <th mat-header-cell *matHeaderCellDef class="bordered-cell"> Option </th>
+                <td mat-cell *matCellDef="let vente" class="bordered-cell">
+                    <button *ngIf="!vente.onediting && !Editing" type="button"
+                        class="btn btn-outline-danger btn-sm" (click)="deleteVente(vente)">
+                        <i class="bi bi-trash3-fill"></i> Delete
+                    </button>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row
+            (click)="showDetails(row)"
+            *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+            aria-label="Select page of periodic elements">
+        </mat-paginator>
+    </div>
+</div>
+<div class="second-container" *ngIf="showingDetails">
+
+    <!-- Sale Details Header -->
+    <div class="details-header">
+        <h3>{{ getClientById(detailledvente.clientId) }}</h3>
+        <p>{{ detailledvente.dateVente | date:'fullDate' }}</p>
+    </div>
+    <!-- List of Products Sold -->
+    <table class="products-table">
+        <thead>
+            <tr>
+                <th>Produit</th>
+                <th>Prix</th>
+                <th>Quantité</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let produit of produitsVendus">
+                <td>{{ getProduitById(produit.ProduitId) }}</td>
+                <td>{{ produit.prix | rightCurrency:'MAD' }}</td>
+                <td>{{ produit.quantite }}</td>
+                <td>{{ produit.total * produit.quantite| rightCurrency:'MAD' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Total = {{detailledvente.total}}</h3>
+
+    <!-- Back Button -->
+    <button mat-button (click)="showingDetails = false">Retour</button>
+</div>
