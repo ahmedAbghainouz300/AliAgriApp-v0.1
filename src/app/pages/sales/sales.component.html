@@ -17,7 +17,7 @@
             <ng-container matColumnDef="no">
                 <th mat-header-cell *matHeaderCellDef class="bordered-cell"> NO </th>
                 <td mat-cell *matCellDef="let vente" class="bordered-cell">
-                    {{vente.id}}
+                    {{ ventes.indexOf(vente) + 1 }}
                 </td>
             </ng-container>
 
@@ -25,7 +25,7 @@
             <ng-container matColumnDef="date">
                 <th mat-header-cell *matHeaderCellDef class="bordered-cell"> Date de vente </th>
                 <td mat-cell *matCellDef="let vente" class="bordered-cell">
-                    {{vente.dateVente | date}}
+                    {{vente.dateVente | date: 'y-M-d' }}
                 </td>
             </ng-container>
 
@@ -50,7 +50,7 @@
                 <th mat-header-cell *matHeaderCellDef class="bordered-cell"> Option </th>
                 <td mat-cell *matCellDef="let vente" class="bordered-cell">
                     <button *ngIf="!vente.onediting && !Editing" type="button"
-                        class="btn btn-outline-danger btn-sm" (click)="deleteVente(vente)">
+                        class="btn btn-outline-danger btn-sm" (click)="deleteVente(vente);showingDetails=false">
                         <i class="bi bi-trash3-fill"></i> Delete
                     </button>
                 </td>
@@ -71,8 +71,8 @@
 
     <!-- Sale Details Header -->
     <div class="details-header">
-        <h3>{{ getClientById(detailledvente.clientId) }}</h3>
-        <p>{{ detailledvente.dateVente | date:'fullDate' }}</p>
+        <h3>Pour : {{ getClientById(detailledvente.clientId) }}</h3>
+        <p>Le : {{ detailledvente.dateVente | date:'fullDate' }}</p>
     </div>
     <!-- List of Products Sold -->
     <table class="products-table">
@@ -94,7 +94,7 @@
         </tbody>
     </table>
 
-    <h3>Total = {{detailledvente.total}}</h3>
+    <h3>Total = {{detailledvente.total | rightCurrency}}</h3>
 
     <!-- Back Button -->
     <button mat-button (click)="showingDetails = false">Retour</button>

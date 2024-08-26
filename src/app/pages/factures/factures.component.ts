@@ -40,6 +40,7 @@ export class FacturesComponent implements OnInit {
     this.loadClients();
     this.loadFournisseurs();
   }
+  selectedSaleType: string = '';
   produits: Produit[] = [];
   transactions: string[] = [
     'Achat',
@@ -177,11 +178,19 @@ export class FacturesComponent implements OnInit {
         );
       });
       console.log('ok');
+      if (this.selectedSaleType === 'credit') {
+        // Query to update the client's credit by adding the new total
+        await this.databaseservice.queryDatabase(
+          `UPDATE clients SET credit = credit + ? WHERE id = ?`,
+          [this.getTotal(), this.selectedClient.id]
+        );
+        console.log('Client credit updated successfully.');
+        this.showSuccessAlert();
+        this.selectedProduits = [];
+      }
     } catch (err) {
       alert('Error adding facture' + err);
     }
-    this.showSuccessAlert();
-    this.selectedProduits = [];
   }
 
   async enregistrerAchat() {
@@ -200,11 +209,18 @@ export class FacturesComponent implements OnInit {
           [produit.produit.id, idSale, produit.quantite, produit.prix]
         );
       });
+      if (this.selectedSaleType === 'credit') {
+        await this.databaseservice.queryDatabase(
+          `UPDATE fournisseurs SET debit = debit + ? WHERE id = ?`,
+          [this.getTotal(), this.selectedFournisseur.id]
+        );
+        console.log('Fournisseur debit updated successfully.');
+        this.showSuccessAlert();
+        this.selectedProduits = [];
+      }
     } catch (err) {
       alert('Veuillez remplir et selectionner tous les champs');
     }
-    this.showSuccessAlert();
-    this.selectedProduits = [];
   }
 
   async getSaleId() {

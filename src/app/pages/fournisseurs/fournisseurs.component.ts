@@ -22,7 +22,7 @@ export interface Fournisseur {
   email: string;
   adresse: string;
   dateAjout: string;
-  credit: number;
+  debit: number;
   onediting: boolean;
 }
 
@@ -62,7 +62,7 @@ export class FournisseursComponent {
     email: '',
     adresse: '',
     dateAjout: '',
-    credit: 0,
+    debit: 0,
     onediting: false,
   };
   newFournisseur: Fournisseur = {
@@ -73,7 +73,7 @@ export class FournisseursComponent {
     email: '',
     adresse: '',
     dateAjout: '',
-    credit: 0,
+    debit: 0,
     onediting: false,
   };
   constructor(
@@ -131,7 +131,7 @@ export class FournisseursComponent {
       email: '',
       adresse: '',
       dateAjout: '',
-      credit: 0,
+      debit: 0,
       onediting: false,
     };
     this.onAdding = false;
@@ -177,7 +177,7 @@ export class FournisseursComponent {
       email: '',
       adresse: '',
       dateAjout: '',
-      credit: 0,
+      debit: 0,
       onediting: false,
     };
     this.showSuccessAlert();
