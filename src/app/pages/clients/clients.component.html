@@ -38,13 +38,16 @@
         <mat-label>Adresse</mat-label>
         <input matInput [(ngModel)]="newClient.adresse" />
       </mat-form-field>
+      <mat-form-field appearance="outline" class="matformfield">
+        <mat-label>Limite Credit</mat-label>
+        <input type="number" min="0" [(ngModel)]="newClient.adresse" />
+      </mat-form-field>
     </div>
     <div class="form-actions">
       <button class="btn btn-primary" (click)="addClient()">Save</button>
       <button class="btn btn-danger" (click)="onAdding = false">Cancel</button>
     </div>
   </div>
-
   <div class="mat-elevation-z8 clients-table-container">
     <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 clients-table">
   

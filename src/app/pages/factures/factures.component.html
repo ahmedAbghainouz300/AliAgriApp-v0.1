@@ -8,7 +8,7 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
-    <mat-form-field appearance="outline" *ngIf="transaction === 'Achat'">
+    <mat-form-field appearance="outline" *ngIf="transaction === 'Achat' || transaction === 'payement(fournisseur)'">
       <mat-label>Fournisseur</mat-label>
       <mat-select [(value)]="selectedFournisseur" [disabled]="disableButtons()">
         <mat-option *ngFor="let fournisseur of fournisseurs" [value]="fournisseur">
@@ -16,7 +16,7 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
-    <mat-form-field appearance="outline" *ngIf="transaction === 'Vente'">
+    <mat-form-field appearance="outline" *ngIf="transaction === 'Vente' || transaction === 'payement(client)'">
       <mat-label>Client</mat-label>
       <mat-select [(value)]="selectedClient" [disabled]="disableButtons()">
         <mat-option *ngFor="let client of clients" [value]="client">
@@ -24,13 +24,14 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>Type de vente</mat-label>
+    <mat-form-field appearance="outline" *ngIf="transaction === 'Achat' || transaction === 'Vente'">
+      <mat-label>Type de payement</mat-label>
       <mat-select [(value)]="selectedSaleType">
         <mat-option value="credit">Crédit</mat-option>
-        <mat-option value="cache">Cache</mat-option>
+        <mat-option value="cash">Cash</mat-option>
       </mat-select>
     </mat-form-field>
+
   </div>
   
   <div class="content" *ngIf="transaction === 'Achat' || transaction === 'Vente'">
@@ -71,7 +72,7 @@
           <tr *ngFor="let item of selectedProduits">
             <td>{{ item.produit.libelle }}</td>
             <td>{{ item.prix | rightCurrency}}</td>
-            <td>{{ item.quantite | rightCurrency}}</td>
+            <td>{{ item.quantite }}</td>
             <td>{{ item.total | rightCurrency}}</td>
             <td><button (click)="supprimerProduit(item)">Supprimer</button></td>
           </tr>
@@ -85,7 +86,7 @@
     </div>
   </div>
   <div class="payement" *ngIf="transaction === 'payement(client)' || transaction === 'payement(fournisseur)'">
-    <mat-form-field appearance="outline" *ngIf="transaction === 'payement(fournisseur)'">
+    <!-- <mat-form-field appearance="outline" *ngIf="transaction === 'payement(fournisseur)'">
       <mat-label>Fournisseur</mat-label>
       <mat-select [(value)]="selectedFournisseur">
         <mat-option *ngFor="let fournisseur of fournisseurs" [value]="fournisseur">
@@ -100,6 +101,12 @@
           {{ client.nom }}
         </mat-option>
       </mat-select>
+    </mat-form-field> -->
+    <mat-form-field appearance="outline" floatLabel="always">
+      <mat-label>Montant</mat-label>
+      <input matInput type="number" min="0" [(ngModel)]="Montant" placeholder="0" />
+      <span matTextPrefix>MAD&nbsp;</span>
     </mat-form-field>
+    <button mat-raised-button color="success" (click)="enregistrerPayement()">Enregistrer</button>
   </div>
 </div>

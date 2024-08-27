@@ -169,15 +169,17 @@ export class FacturesComponent implements OnInit {
       );
 
       const idSale = await this.getSaleId();
-      console.log('sale id:', idSale);
 
       this.selectedProduits.forEach(async (produit) => {
         await this.databaseservice.queryDatabase(
           'INSERT INTO facturesvente (ProduitId, venteId, quantite, prix) VALUES (?, ?, ?, ?)',
           [produit.produit.id, idSale, produit.quantite, produit.prix]
         );
+        await this.databaseservice.queryDatabase(
+          'UPDATE produits SET stock = stock - ? WHERE id = ?',
+          [produit.quantite, produit.produit.id]
+        );
       });
-      console.log('ok');
       if (this.selectedSaleType === 'credit') {
         // Query to update the client's credit by adding the new total
         await this.databaseservice.queryDatabase(
@@ -195,30 +197,44 @@ export class FacturesComponent implements OnInit {
 
   async enregistrerAchat() {
     try {
+      // Insert new purchase record into 'achats' table
       await this.databaseservice.queryDatabase(
         'INSERT INTO achats(description, fournisseurId, total) VALUES(?, ?, ?)',
         [this.description, this.selectedFournisseur.id, this.total]
       );
 
+      // Get the new purchase ID
       const idSale = await this.getSaleId();
       console.log('achat id:', idSale);
 
-      this.selectedProduits.forEach(async (produit) => {
+      // Insert records for each selected product into 'facturesachat' table
+      for (const produit of this.selectedProduits) {
         await this.databaseservice.queryDatabase(
           'INSERT INTO facturesachat (ProduitId, achatId, quantite, prix) VALUES (?, ?, ?, ?)',
           [produit.produit.id, idSale, produit.quantite, produit.prix]
         );
-      });
+
+        // Update the product stock by adding the purchased quantity
+        await this.databaseservice.queryDatabase(
+          'UPDATE produits SET stock = stock + ? WHERE id = ?',
+          [produit.quantite, produit.produit.id]
+        );
+      }
+
+      // Update the fournisseur's debit if the purchase type is 'credit'
       if (this.selectedSaleType === 'credit') {
         await this.databaseservice.queryDatabase(
-          `UPDATE fournisseurs SET debit = debit + ? WHERE id = ?`,
+          'UPDATE fournisseurs SET debit = debit + ? WHERE id = ?',
           [this.getTotal(), this.selectedFournisseur.id]
         );
         console.log('Fournisseur debit updated successfully.');
-        this.showSuccessAlert();
-        this.selectedProduits = [];
       }
+
+      // Show success alert and reset selected products
+      this.showSuccessAlert();
+      this.selectedProduits = [];
     } catch (err) {
+      console.error('An error occurred:', err);
       alert('Veuillez remplir et selectionner tous les champs');
     }
   }
@@ -229,7 +245,6 @@ export class FacturesComponent implements OnInit {
         'SELECT last_insert_rowid() as IdSale'
       );
       const idSale = result[0].IdSale;
-      console.log('sale id:', idSale);
       return idSale;
     } catch (err) {
       console.log('Error retrieving sale id');
@@ -250,5 +265,51 @@ export class FacturesComponent implements OnInit {
       text: 'Your action was successful!',
       confirmButtonText: 'OK',
     });
+  }
+
+  //payement//
+  Montant: number = 0;
+
+  async enregistrerPayement() {
+    try {
+      if (this.transaction === 'payement(client)') {
+        if (
+          await this.databaseservice.queryDatabase(
+            'UPDATE clients SET credit = credit - ? WHERE id = ?',
+            [this.Montant, this.selectedClient.id]
+          )
+        ) {
+          if (
+            await this.databaseservice.queryDatabase(
+              'INSERT INTO payementsclient (montant, clientId) VALUES (?, ?)',
+              [this.Montant, this.selectedClient.id]
+            )
+          ) {
+            this.showSuccessAlert();
+            this.Montant = 0;
+          }
+        }
+      }
+      if (this.transaction === 'payement(fournisseur)') {
+        await this.databaseservice.queryDatabase(
+          'UPDATE fournisseurs SET debit = debit - ? WHERE id = ?',
+          [this.Montant, this.selectedFournisseur.id]
+        );
+
+        (await this.databaseservice.queryDatabase(
+          'INSERT INTO payementsfournisseur (montant, fournisseurId) VALUES (?, ?)',
+          [this.Montant, this.selectedFournisseur.id]
+        )) !== null;
+        this.showSuccessAlert();
+        this.Montant = 0;
+
+        console.log(
+          await this.databaseservice.queryDatabase(
+            'INSERT INTO payementsfournisseur (montant, fournisseurId) VALUES (?, ?)',
+            [this.Montant, this.selectedFournisseur.id]
+          )
+        );
+      }
+    } catch (err) {}
   }
 }

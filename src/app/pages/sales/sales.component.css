@@ -10,15 +10,14 @@
   
   .fournisseurs-header {
     display: flex;
-    justify-content: space-between; /* Space out items evenly */
+    justify-content: space-between; 
     align-items: center;
     padding: 10px 20px;
-    background-color: #282c34; /* Dark background for a modern look */
-    border-radius: 10px; /* Smooth corners */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    background-color: #282c34; 
+    border-radius: 10px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
   }
   
-  /* Image styling */
   
   .fournisseur-image img {
     height: 90px;
@@ -49,16 +48,15 @@
     align-items: center;
     justify-content: center;
     color: white;
-    background-color: #1976d2; /* Blue background for button */
+    background-color: #1976d2; 
     border-radius: 5px;
     padding: 10px 15px;
-    transition: background-color 0.3s ease; /* Smooth transition on hover */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+    transition: background-color 0.3s ease; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
   }
   
-  /* Button hover effect */
   .add-founisseur-btn:hover {
-    background-color: #1565c0; /* Darker blue on hover */
+    background-color: #1565c0;
   }
   
   .add-fournisseur-btn .bi {
@@ -67,13 +65,13 @@
   
   .add-fournisseur-form {
     margin-bottom: 30px;
-    background-color: #282c34; /* Dark background for a modern look */
+    background-color: #282c34; 
     padding: 15px;
     border-radius: 5px;
   }
   
   .fournisseurs-table-container {
-    overflow-x: auto; /* Add horizontal scroll for small screens */
+    overflow-x: auto; 
   }
   
   .fournisseurs-table .btn-sm {
@@ -84,26 +82,22 @@
   }
   
   .mat-mdc-row .mat-mdc-cell {
-    border-bottom: 1px solid transparent;
-    border-top: 1px solid transparent;
     cursor: pointer;
   }
   .mat-mdc-row:hover .mat-mdc-cell {
+    border: 1px solid white;
     border-color: currentColor;
+    display: flex;
+    justify-content: center;
   }
-  /* .mat-mdc-row:nth-child(even) {
-    background-color: #e3f0e6;
-  } */
   
   .mat-mdc-header-cell {
-    border: 1px solid rgb(130, 130, 130);
     text-align: center;
   }
   
   .mat-mdc-header-row {
-    border: 1px solid rgb(130, 130, 130);
     background-color: #545659;
-  color: white;
+    color: white;
   }
   
   .mat-mdc-paginator {

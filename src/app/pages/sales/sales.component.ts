@@ -204,7 +204,6 @@ export class SalesComponent {
         'SELECT * FROM produits'
       );
       this.produits = result;
-      console.log(this.produits);
     } catch (err) {
       console.log(err);
     }
