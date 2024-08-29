@@ -15,6 +15,7 @@ import { RightCurrencyPipe } from '../../right-currency.pipe';
 import path from 'path';
 import { Client } from '../clients/clients.component';
 import { Produit } from '../produits/produits.component';
+import { MatButton, MatFabButton } from '@angular/material/button';
 
 export interface Achat {
   id: number;
@@ -37,6 +38,8 @@ export interface Achat {
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
+    MatButton,
+    MatFabButton,
   ],
   templateUrl: './purshases.component.html',
   styleUrl: './purshases.component.css',

@@ -15,6 +15,7 @@ import { RightCurrencyPipe } from '../../right-currency.pipe';
 import path from 'path';
 import { Client } from '../clients/clients.component';
 import { Produit } from '../produits/produits.component';
+import { MatButton, MatFabButton } from '@angular/material/button';
 
 export interface Vente {
   id: number;
@@ -37,13 +38,15 @@ export interface Vente {
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
+    MatButton,
+    MatFabButton,
   ],
   templateUrl: './sales.component.html',
-  styleUrls: ['./sales.component.css'], // Corrected from `styleUrl` to `styleUrls`
+  styleUrls: ['../purshases/purshases.component.css'], // Corrected from `styleUrl` to `styleUrls`
 })
 export class SalesComponent {
   imagePath = path.join(__dirname, 'public/assets/R.png');
-  dataSource: MatTableDataSource<Vente>; // Explicitly set type for dataSource
+  dataSource: MatTableDataSource<Vente>;
 
   searchTerm: string = '';
   ventes: Vente[] = [];
