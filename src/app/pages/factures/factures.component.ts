@@ -180,8 +180,10 @@ export class FacturesComponent implements OnInit {
           [produit.quantite, produit.produit.id]
         );
       });
-      if (this.selectedSaleType === 'credit') {
-        // Query to update the client's credit by adding the new total
+      if (
+        this.selectedSaleType === 'credit' &&
+        this.selectedClient.limite - this.selectedClient.credit >= this.total
+      ) {
         await this.databaseservice.queryDatabase(
           `UPDATE clients SET credit = credit + ? WHERE id = ?`,
           [this.getTotal(), this.selectedClient.id]
@@ -189,6 +191,13 @@ export class FacturesComponent implements OnInit {
         console.log('Client credit updated successfully.');
         this.showSuccessAlert();
         this.selectedProduits = [];
+      } else {
+        Swal.fire({
+          icon: 'warning',
+          title: 'rejected!',
+          text: 'le credit de ce client est arrive a sa limite',
+          confirmButtonText: 'OK',
+        });
       }
     } catch (err) {
       alert('Error adding facture' + err);

@@ -13,6 +13,8 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { RightCurrencyPipe } from '../../right-currency.pipe';
 import path from 'path';
+import { MatListModule } from '@angular/material/list';
+import { MatButton, MatFabButton } from '@angular/material/button';
 
 export interface Fournisseur {
   id: number;
@@ -23,6 +25,7 @@ export interface Fournisseur {
   adresse: string;
   dateAjout: string;
   debit: number;
+  limite: number;
   onediting: boolean;
 }
 
@@ -39,6 +42,9 @@ export interface Fournisseur {
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
+    MatListModule,
+    MatButton,
+    MatFabButton,
   ],
   templateUrl: './fournisseurs.component.html',
   styleUrl: './fournisseurs.component.css',
@@ -63,6 +69,7 @@ export class FournisseursComponent {
     adresse: '',
     dateAjout: '',
     debit: 0,
+    limite: 0,
     onediting: false,
   };
   newFournisseur: Fournisseur = {
@@ -74,6 +81,7 @@ export class FournisseursComponent {
     adresse: '',
     dateAjout: '',
     debit: 0,
+    limite: 0,
     onediting: false,
   };
   constructor(
@@ -132,6 +140,7 @@ export class FournisseursComponent {
       adresse: '',
       dateAjout: '',
       debit: 0,
+      limite: 0,
       onediting: false,
     };
     this.onAdding = false;
@@ -152,7 +161,7 @@ export class FournisseursComponent {
       this.databaseservise.queryDatabase(
         `
         UPDATE fournisseurs
-        SET cin = ?,nom = ?, telephone = ?,email = ?,adresse = ?
+        SET cin = ?,nom = ?, telephone = ?,email = ?,adresse = ?,limite = ?
         WHERE id = ?;
       `,
         [
@@ -161,6 +170,7 @@ export class FournisseursComponent {
           this.editedFournisseur.telephone,
           this.editedFournisseur.email,
           this.editedFournisseur.adresse,
+          this.editedFournisseur.limite,
           fournisseur.id,
         ]
       );
@@ -178,6 +188,7 @@ export class FournisseursComponent {
       adresse: '',
       dateAjout: '',
       debit: 0,
+      limite: 0,
       onediting: false,
     };
     this.showSuccessAlert();
@@ -225,7 +236,7 @@ WHERE id = ?`,
     'telephone',
     'email',
     'adresse',
-    'dateAjout',
+    'limite',
     'credit',
     'options',
   ];
@@ -252,5 +263,23 @@ WHERE id = ?`,
   }
   filterchange() {
     this.dataSource.filter = this.searchTerm;
+  }
+
+  detailledFournisseur: Fournisseur = {
+    id: 0,
+    cin: '',
+    nom: '',
+    telephone: '',
+    email: '',
+    adresse: '',
+    dateAjout: '',
+    debit: 0,
+    limite: 0,
+    onediting: false,
+  };
+  showingdetails: boolean = false;
+  showDetails(fournisseur: Fournisseur) {
+    this.showingdetails = true;
+    this.detailledFournisseur = fournisseur;
   }
 }

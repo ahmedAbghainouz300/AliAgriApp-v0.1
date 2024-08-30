@@ -21,15 +21,20 @@ import { RightCurrencyPipe } from '../../right-currency.pipe';
 import { MatSelectModule } from '@angular/material/select';
 import { Categorie } from '../categories/categories.component';
 import { Unite } from '../categories/categories.component';
+import { MatListModule } from '@angular/material/list';
+
 import path from 'path';
+import { MatButton, MatFabButton } from '@angular/material/button';
 export interface Produit {
   id: number;
   reference: string;
   libelle: string;
   prixAchat: number;
   prixVente: number;
-  unite: string;
-  categorie: string;
+  unite: number;
+  categorie: number;
+  stock: number;
+  limite: number;
   onediting: boolean;
 }
 @Component({
@@ -46,6 +51,9 @@ export interface Produit {
     MatSortModule,
     MatPaginatorModule,
     MatSelectModule,
+    MatListModule,
+    MatButton,
+    MatFabButton,
   ],
   templateUrl: './produits.component.html',
   styleUrl: './produits.component.css',
@@ -113,8 +121,10 @@ export class ProduitsComponent implements OnInit, AfterViewInit {
     libelle: '',
     prixAchat: 0,
     prixVente: 0,
-    unite: '',
-    categorie: '',
+    unite: 0,
+    categorie: 0,
+    stock: 0,
+    limite: 0,
     onediting: false,
   };
   newProduit: Produit = {
@@ -123,8 +133,10 @@ export class ProduitsComponent implements OnInit, AfterViewInit {
     libelle: '',
     prixAchat: 0,
     prixVente: 0,
-    unite: '',
-    categorie: '',
+    unite: 0,
+    categorie: 0,
+    stock: 0,
+    limite: 0,
     onediting: false,
   };
   constructor(
@@ -179,8 +191,10 @@ export class ProduitsComponent implements OnInit, AfterViewInit {
       libelle: '',
       prixAchat: 0,
       prixVente: 0,
-      unite: '',
-      categorie: '',
+      unite: 0,
+      categorie: 0,
+      stock: 0,
+      limite: 0,
       onediting: false,
     };
     this.selectedUnite = 0;
@@ -216,7 +230,7 @@ export class ProduitsComponent implements OnInit, AfterViewInit {
       this.databaseservise.queryDatabase(
         `
         UPDATE produits
-        SET reference = ?,libelle = ?, prixAchat = ?,prixVente = ?,unite = ?,categorie = ?
+        SET reference = ?,libelle = ?, prixAchat = ?,prixVente = ?,unite = ?,categorie = ?,limite = ?
         WHERE id = ?;
       `,
         [
@@ -226,6 +240,7 @@ export class ProduitsComponent implements OnInit, AfterViewInit {
           this.editedProduit.prixVente,
           this.editedProduit.unite,
           this.editedProduit.categorie,
+          this.editedProduit.limite,
           produit.id,
         ]
       );
@@ -240,8 +255,10 @@ export class ProduitsComponent implements OnInit, AfterViewInit {
       libelle: '',
       prixAchat: 0,
       prixVente: 0,
-      unite: '',
-      categorie: '',
+      unite: 0,
+      categorie: 0,
+      stock: 0,
+      limite: 0,
       onediting: false,
     };
     this.showSuccessAlert();
@@ -288,8 +305,8 @@ WHERE id = ?`,
     'libelle',
     'prix-achat',
     'prix-vente',
-    'unite',
-    'categorie',
+    'stock',
+    'limite',
     'options',
   ];
 
@@ -306,5 +323,25 @@ WHERE id = ?`,
   }
   filterchange() {
     this.dataSource.filter = this.searchTerm;
+  }
+
+  detailledproduit: Produit = {
+    id: 0,
+    reference: '',
+    libelle: '',
+    prixAchat: 0,
+    prixVente: 0,
+    unite: 0,
+    categorie: 0,
+    stock: 0,
+    limite: 0,
+    onediting: false,
+  };
+
+  showingdetails: boolean = false;
+  showDetails(produit: Produit) {
+    this.showingdetails = true;
+    console.log('showing details : ', this.showingdetails);
+    this.detailledproduit = produit;
   }
 }

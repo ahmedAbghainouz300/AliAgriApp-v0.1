@@ -19,6 +19,8 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { RightCurrencyPipe } from '../../right-currency.pipe';
 import path from 'path';
+import { MatListModule } from '@angular/material/list';
+import { MatButton, MatFabButton } from '@angular/material/button';
 
 export interface Client {
   id: number;
@@ -28,6 +30,7 @@ export interface Client {
   email: string;
   adresse: string;
   dateAjout: string;
+  limite: number;
   credit: number;
   onediting: boolean;
 }
@@ -44,6 +47,9 @@ export interface Client {
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
+    MatListModule,
+    MatButton,
+    MatFabButton,
   ],
   templateUrl: './clients.component.html',
   styleUrls: ['./clients.component.css'],
@@ -67,6 +73,7 @@ export class ClientsComponent implements OnInit, AfterViewInit {
     email: '',
     adresse: '',
     dateAjout: '',
+    limite: 0,
     credit: 0,
     onediting: false,
   };
@@ -78,6 +85,7 @@ export class ClientsComponent implements OnInit, AfterViewInit {
     email: '',
     adresse: '',
     dateAjout: '',
+    limite: 0,
     credit: 0,
     onediting: false,
   };
@@ -136,6 +144,7 @@ export class ClientsComponent implements OnInit, AfterViewInit {
       email: '',
       adresse: '',
       dateAjout: '',
+      limite: 0,
       credit: 0,
       onediting: false,
     };
@@ -157,7 +166,7 @@ export class ClientsComponent implements OnInit, AfterViewInit {
       this.databaseservise.queryDatabase(
         `
         UPDATE clients
-        SET cin = ?,nom = ?, telephone = ?,email = ?,adresse = ?
+        SET cin = ?,nom = ?, telephone = ?,email = ?,adresse = ?,limite = ?
         WHERE id = ?;
       `,
         [
@@ -166,6 +175,7 @@ export class ClientsComponent implements OnInit, AfterViewInit {
           this.editedClient.telephone,
           this.editedClient.email,
           this.editedClient.adresse,
+          this.editedClient.limite,
           client.id,
         ]
       );
@@ -182,6 +192,7 @@ export class ClientsComponent implements OnInit, AfterViewInit {
       email: '',
       adresse: '',
       dateAjout: '',
+      limite: 0,
       credit: 0,
       onediting: false,
     };
@@ -230,7 +241,7 @@ WHERE id = ?`,
     'telephone',
     'email',
     'adresse',
-    'dateAjout',
+    'limite',
     'credit',
     'options',
   ];
@@ -257,5 +268,22 @@ WHERE id = ?`,
   }
   filterchange() {
     this.dataSource.filter = this.searchTerm;
+  }
+  detailledClient: Client = {
+    id: 0,
+    cin: '',
+    nom: '',
+    telephone: '',
+    email: '',
+    adresse: '',
+    dateAjout: '',
+    limite: 0,
+    credit: 0,
+    onediting: false,
+  };
+  showingdetails: boolean = false;
+  showDetails(client: Client) {
+    this.showingdetails = true;
+    this.detailledClient = client;
   }
 }

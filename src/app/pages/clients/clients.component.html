@@ -1,145 +1,229 @@
-<body>
+<body *ngIf="!showingdetails || Editing">
   <div class="clients-container">
-  <!-- Search and Add Client Section -->
-  <div class="clients-header">
-    <img [src]="imagePath" alt="Client" class="client-image">
-    <div class="formdiv">
-      <mat-form-field appearance="outline" class="matformfield">
-      <mat-label>Search</mat-label>
-      <input matInput [(ngModel)]="searchTerm" (keyup)="filterchange()" />
-    </mat-form-field>
-    </div>
-    
-    <button class="btn btn-outline-primary add-client-btn" (click)="onAdding=!onAdding">
-      <i class="bi bi-plus-circle"></i> Add Client
-    </button>
-  </div>
-  <mat-divider style="margin: 10px 0;"></mat-divider>
+    <!-- Search and Add Client Section -->
+    <div class="clients-header">
+      <img [src]="imagePath" alt="Client" class="client-image">
+      <div class="formdiv">
+        <mat-form-field appearance="outline" class="matformfield">
+          <mat-label>Search</mat-label>
+          <input matInput [(ngModel)]="searchTerm" (keyup)="filterchange()" />
+        </mat-form-field>
+      </div>
 
-  <div *ngIf="onAdding" class="add-client-form">
-    <div class="form-grid">
-      <mat-form-field appearance="outline" class="matformfield">
-        <mat-label>ID</mat-label>
-        <input matInput [(ngModel)]="newClient.cin" />
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="matformfield">
-        <mat-label>Nom</mat-label>
-        <input matInput [(ngModel)]="newClient.nom" />
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="matformfield">
-        <mat-label>Telephone</mat-label>
-        <input matInput [(ngModel)]="newClient.telephone" />
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="matformfield">
-        <mat-label>Email</mat-label>
-        <input matInput [(ngModel)]="newClient.email" />
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="matformfield">
-        <mat-label>Adresse</mat-label>
-        <input matInput [(ngModel)]="newClient.adresse" />
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="matformfield">
-        <mat-label>Limite Credit</mat-label>
-        <input type="number" min="0" [(ngModel)]="newClient.adresse" />
-      </mat-form-field>
+      <button class="btn btn-outline-primary add-client-btn" (click)="onAdding=!onAdding">
+        <i class="bi bi-plus-circle"></i> Add Client
+      </button>
     </div>
-    <div class="form-actions">
-      <button class="btn btn-primary" (click)="addClient()">Save</button>
-      <button class="btn btn-danger" (click)="onAdding = false">Cancel</button>
+    <mat-divider style="margin: 10px 0;"></mat-divider>
+
+    <div *ngIf="onAdding" class="add-client-form">
+      <div class="form-grid">
+        <mat-form-field appearance="outline" class="matformfield">
+          <mat-label>ID</mat-label>
+          <input matInput [(ngModel)]="newClient.cin" />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="matformfield">
+          <mat-label>Nom</mat-label>
+          <input matInput [(ngModel)]="newClient.nom" />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="matformfield">
+          <mat-label>Telephone</mat-label>
+          <input matInput [(ngModel)]="newClient.telephone" />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="matformfield">
+          <mat-label>Email</mat-label>
+          <input matInput [(ngModel)]="newClient.email" />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="matformfield">
+          <mat-label>Adresse</mat-label>
+          <input matInput [(ngModel)]="newClient.adresse" />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="matformfield">
+          <mat-label>limite</mat-label>
+          <input matInput [(ngModel)]="newClient.limite" />
+        </mat-form-field>
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-primary" (click)="addClient()">Save</button>
+        <button class="btn btn-danger" (click)="onAdding = false">Cancel</button>
+      </div>
     </div>
-  </div>
-  <div class="mat-elevation-z8 clients-table-container">
-    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 clients-table">
-  
-      <!-- CIN Column -->
-      <ng-container matColumnDef="cin">
-        <th mat-header-cell *matHeaderCellDef class="bordered-cell"> CIN </th>
-        <td mat-cell *matCellDef="let client" class="bordered-cell">
-          {{client.cin}}
-          <input *ngIf="client.onediting" [(ngModel)]="editedClient.cin">
-        </td>
-      </ng-container>
-  
-      <!-- Nom Column -->
-      <ng-container matColumnDef="nom">
-        <th mat-header-cell *matHeaderCellDef class="bordered-cell" mat-sort-header> Nom </th>
-        <td mat-cell *matCellDef="let client" class="bordered-cell">
-          {{client.nom}}
-          <input *ngIf="client.onediting" [(ngModel)]="editedClient.nom">
-        </td>
-      </ng-container>
-  
-      <!-- Telephone Column -->
-      <ng-container matColumnDef="telephone">
-        <th mat-header-cell *matHeaderCellDef class="bordered-cell"> Telephone </th>
-        <td mat-cell *matCellDef="let client" class="bordered-cell">
-          {{client.telephone}}
-          <input *ngIf="client.onediting" [(ngModel)]="editedClient.telephone">
-        </td>
-      </ng-container>
-  
-      <!-- Email Column -->
-      <ng-container matColumnDef="email">
-        <th mat-header-cell *matHeaderCellDef class="bordered-cell"> Email </th>
-        <td mat-cell *matCellDef="let client" class="bordered-cell">
-          {{client.email}}
-          <input *ngIf="client.onediting" [(ngModel)]="editedClient.email">
-        </td>
-      </ng-container>
-  
-      <!-- Adresse Column -->
-      <ng-container matColumnDef="adresse">
-        <th mat-header-cell *matHeaderCellDef class="bordered-cell"> Adresse </th>
-        <td mat-cell *matCellDef="let client" class="bordered-cell">
-          {{client.adresse}}
-          <input *ngIf="client.onediting" [(ngModel)]="editedClient.adresse">
-        </td>
-      </ng-container>
-  
-      <!-- Date d'ajout Column -->
-      <ng-container matColumnDef="dateAjout">
-        <th mat-header-cell *matHeaderCellDef class="bordered-cell"> Date d'ajout </th>
-        <td mat-cell *matCellDef="let client" class="bordered-cell">
-          {{client.dateAjout | date}}
-        </td>
-      </ng-container>
-  
-      <!-- Credit Column -->
-      <ng-container matColumnDef="credit">
-        <th mat-header-cell *matHeaderCellDef class="bordered-cell"> Credit </th>
-        <td mat-cell *matCellDef="let client" class="bordered-cell">
-          {{client.credit | rightCurrency:'MAD' }}
-        </td>
-      </ng-container>
-  
-      <!-- Options Column -->
-      <ng-container matColumnDef="options">
-        <th mat-header-cell *matHeaderCellDef class="bordered-cell"> Options </th>
-        <td mat-cell *matCellDef="let client" class="bordered-cell">
-          <button class="btn btn-outline-primary btn-sm" *ngIf="client.onediting && Editing" (click)="editClient(client);Editing=false"> 
-            <i class="bi bi-floppy"></i> Save
-          </button>
-          <button *ngIf="!client.onediting && !Editing" class="btn btn-outline-success btn-sm" (click)="onEditing(client);Editing=true">
-            <i class="bi bi-pencil-square"></i> Edit
-          </button>
-          <button *ngIf="!client.onediting && !Editing" type="button" class="btn btn-outline-danger btn-sm" (click)="deleteClient(client)">
-            <i class="bi bi-trash3-fill"></i> Delete
-          </button>
-          <!-- <button class="btn btn-outline-dark btn-sm">
+    <div class="mat-elevation-z8 clients-table-container">
+      <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 clients-table">
+
+        <!-- CIN Column -->
+        <ng-container matColumnDef="cin">
+          <th mat-header-cell *matHeaderCellDef class="bordered-cell"> CIN </th>
+          <td mat-cell *matCellDef="let client" class="bordered-cell">
+            {{client.cin}}
+            <input *ngIf="client.onediting" [(ngModel)]="editedClient.cin">
+          </td>
+        </ng-container>
+
+        <!-- Nom Column -->
+        <ng-container matColumnDef="nom">
+          <th mat-header-cell *matHeaderCellDef class="bordered-cell" mat-sort-header> Nom </th>
+          <td mat-cell *matCellDef="let client" class="bordered-cell">
+            {{client.nom}}
+            <input *ngIf="client.onediting" [(ngModel)]="editedClient.nom">
+          </td>
+        </ng-container>
+
+        <!-- Telephone Column -->
+        <ng-container matColumnDef="telephone">
+          <th mat-header-cell *matHeaderCellDef class="bordered-cell"> Telephone </th>
+          <td mat-cell *matCellDef="let client" class="bordered-cell">
+            {{client.telephone}}
+            <input *ngIf="client.onediting" [(ngModel)]="editedClient.telephone">
+          </td>
+        </ng-container>
+
+        <!-- Email Column -->
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef class="bordered-cell"> Email </th>
+          <td mat-cell *matCellDef="let client" class="bordered-cell">
+            {{client.email}}
+            <input *ngIf="client.onediting" [(ngModel)]="editedClient.email">
+          </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="adresse">
+          <th mat-header-cell *matHeaderCellDef class="bordered-cell"> Adresse </th>
+          <td mat-cell *matCellDef="let client" class="bordered-cell">
+            {{client.adresse}}
+            <input *ngIf="client.onediting" [(ngModel)]="editedClient.adresse">
+          </td>
+        </ng-container>
+        <!-- Date d'ajout Column -->
+        <ng-container matColumnDef="limite">
+          <th mat-header-cell *matHeaderCellDef class="bordered-cell"> Limite </th>
+          <td mat-cell *matCellDef="let client" class="bordered-cell">
+            {{client.limite}}
+            <input *ngIf="client.onediting" [(ngModel)]="editedClient.limite">
+          </td>
+        </ng-container>
+
+        <!-- Credit Column -->
+        <ng-container matColumnDef="credit">
+          <th mat-header-cell *matHeaderCellDef class="bordered-cell"> Credit </th>
+          <td mat-cell *matCellDef="let client" class="bordered-cell">
+            {{client.credit | rightCurrency:'MAD' }}
+          </td>
+        </ng-container>
+
+        <!-- Options Column -->
+        <ng-container matColumnDef="options">
+          <th mat-header-cell *matHeaderCellDef class="bordered-cell"> Options </th>
+          <td mat-cell *matCellDef="let client" class="bordered-cell">
+            <button class="btn btn-outline-primary btn-sm" *ngIf="client.onediting && Editing"
+              (click)="editClient(client);showingdetails=false;Editing=false">
+              <i class="bi bi-floppy"></i> Save
+            </button>
+            <button *ngIf="!client.onediting && !Editing" class="btn btn-outline-success btn-sm"
+              (click)="onEditing(client);Editing=true">
+              <i class="bi bi-pencil-square"></i> Edit
+            </button>
+            <button *ngIf="!client.onediting && !Editing" type="button" class="btn btn-outline-danger btn-sm"
+              (click)="deleteClient(client)">
+              <i class="bi bi-trash3-fill"></i> Delete
+            </button>
+            <!-- <button class="btn btn-outline-dark btn-sm">
             <i class="bi bi-eye"></i> Details
           </button> -->
-          <button *ngIf="client.onediting && Editing" type="button" class="btn btn-outline-danger btn-sm" (click)="client.onediting = false;Editing= false ">
-            <i class="bi bi-trash3-fill"></i> cancel
-          </button>
-        </td>
-      </ng-container>
-  
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-  
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements">
-    </mat-paginator>
-  </div>  
-</div>
+            <button *ngIf="client.onediting && Editing" type="button" class="btn btn-outline-danger btn-sm"
+              (click)="client.onediting = false;Editing= false ">
+              <i class="bi bi-trash3-fill"></i> cancel
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row (click)="showDetails(row)" *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements">
+      </mat-paginator>
+    </div>
+  </div>
 </body>
+<div *ngIf="showingdetails && !Editing">
+  <button mat-fab (click)="showingdetails = false" style="margin-top: 3rem; margin-left: 3rem;">
+    <i class="bi bi-arrow-return-left"></i>
+  </button>
+  <div class="second-container">
+    <div class="details-header">
+      <h2>Client: {{detailledClient.nom}}</h2>
+      <ul class="client-details-list">
+        <li>Peference: {{detailledClient.dateAjout}}</li>
+        <li>Cin: {{detailledClient.cin}}</li>
+        <li>Nom: {{detailledClient.nom}}</li>
+        <li>Telephone: {{detailledClient.telephone}}</li>
+        <li>Email: {{detailledClient.email}}</li>
+        <li>Adresse: {{detailledClient.adresse}}</li>
+        <li>Limite: {{detailledClient.limite}}</li>
+        <li>Credit: {{detailledClient.credit | rightCurrency}}</li>
+      </ul>
+    </div>
+
+    <style>
+      .second-container {
+        width: 148mm;
+        height: 210mm;
+        padding: 15mm;
+        border: 1px solid #ddd;
+        margin: 20px auto;
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+        font-family: 'Arial', sans-serif;
+        line-height: 1.6;
+      }
+
+      .details-header {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #ddd;
+      }
+
+      .details-header h2 {
+        margin: 0;
+        font-size: 1.5em;
+        font-weight: bold;
+        color: #333;
+      }
+
+      .client-details-list {
+        list-style-type: none;
+        /* Removes bullet points */
+        padding: 0;
+        /* Removes default padding */
+        margin: 0;
+        /* Removes default margin */
+      }
+
+      .client-details-list li {
+        font-size: 1em;
+        color: #555;
+        padding: 5px 0;
+        /* Adds spacing between list items */
+      }
+
+      @media print {
+        .second-container {
+          box-shadow: none;
+          margin: 0;
+          width: 148mm;
+          height: 210mm;
+          padding: 10mm;
+          border: none;
+        }
+      }
+    </style>
+  </div>
+</div>

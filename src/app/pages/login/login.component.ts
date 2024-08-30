@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterOutlet } from '@angular/router';
 import { DatabaseService } from '../../database.service';
@@ -18,7 +18,10 @@ import { MatFormField, MatLabel } from '@angular/material/form-field';
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
+  ngOnInit(): void {
+    this.login(); // 7yd hada
+  }
   username: string = '';
   password: string = '';
   showPassword: boolean = false;
@@ -33,7 +36,10 @@ export class LoginComponent {
   }
 
   async login() {
+    this.username = 'ahmed';
+    this.password = 'ahmed';
     if (this.username && this.password) {
+      //7ydha
       try {
         const user = await this.databaseservice.queryDatabase(
           'SELECT ROLE FROM USERS WHERE USERNAME = ? AND PASSWORD = ?',

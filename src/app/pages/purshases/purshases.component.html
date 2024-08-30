@@ -66,7 +66,7 @@
     </div>
 </div>
 <div>
-    <button mat-fab (click)="showingDetails = false">
+    <button mat-fab (click)="showingDetails = false" style="margin-top: 3rem; margin-left: 3rem;">
         <i class="bi bi-arrow-return-left"></i>
     </button>
     <div class="second-container" *ngIf="showingDetails">
@@ -97,7 +97,5 @@
         </table>
 
         <h3>Total = {{detailledAchat.total | rightCurrency}}</h3>
-
-
     </div>
 </div>

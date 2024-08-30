@@ -96,3 +96,23 @@
 .mat-mdc-paginator {
   border: 1px solid rgb(130, 130, 130);
 }
+.mat-mdc-row .mat-mdc-cell {
+  cursor: pointer;
+}
+
+.mat-mdc-row:hover .mat-mdc-cell {
+  border: 1px solid rgb(182, 178, 178);
+}
+
+/* .mat-mdc-row:nth-child(even) {
+    background-color: #e3f0e6;
+  } */
+  .mat-mdc-row .mat-mdc-cell {
+    border-bottom: 1px solid transparent;
+    border-top: 1px solid transparent;
+    cursor: pointer;
+  }
+  
+  .mat-mdc-row:hover .mat-mdc-cell {
+    border-color: currentColor;
+  }
