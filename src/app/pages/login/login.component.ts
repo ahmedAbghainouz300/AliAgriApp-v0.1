@@ -20,7 +20,7 @@ import { MatFormField, MatLabel } from '@angular/material/form-field';
 })
 export class LoginComponent implements OnInit {
   ngOnInit(): void {
-    this.login(); // 7yd hada
+    // this.login(); // 7yd hada
   }
   username: string = '';
   password: string = '';
@@ -36,8 +36,8 @@ export class LoginComponent implements OnInit {
   }
 
   async login() {
-    this.username = 'ahmed';
-    this.password = 'ahmed';
+    // this.username = 'ahmed';
+    // this.password = 'ahmed';
     if (this.username && this.password) {
       //7ydha
       try {

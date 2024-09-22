@@ -1,5 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  ViewChild,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -281,5 +286,12 @@ WHERE id = ?`,
   showDetails(fournisseur: Fournisseur) {
     this.showingdetails = true;
     this.detailledFournisseur = fournisseur;
+  }
+
+  //print
+  @ViewChild('pdfContent', { static: false }) pdfContent!: ElementRef;
+
+  downloadPDF() {
+    this.databaseservise.downloadPDF('fournisseur', this.pdfContent);
   }
 }

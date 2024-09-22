@@ -45,6 +45,20 @@
                 </td>
             </ng-container>
 
+            <ng-container matColumnDef="type">
+                <th mat-header-cell *matHeaderCellDef class="bordered-cell"> Type </th>
+                <td mat-cell *matCellDef="let achat" class="bordered-cell">
+                    {{achat.type}}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="avance">
+                <th mat-header-cell *matHeaderCellDef class="bordered-cell"> Avance </th>
+                <td mat-cell *matCellDef="let achat" class="bordered-cell">
+                    {{achat.avance | rightCurrency}}
+                </td>
+            </ng-container>
+            
             <!-- Options Column -->
             <ng-container matColumnDef="option">
                 <th mat-header-cell *matHeaderCellDef class="bordered-cell"> Option </th>
@@ -69,7 +83,11 @@
     <button mat-fab (click)="showingDetails = false" style="margin-top: 3rem; margin-left: 3rem;">
         <i class="bi bi-arrow-return-left"></i>
     </button>
-    <div class="second-container" *ngIf="showingDetails">
+    <button mat-fab (click)="downloadPDF()"
+    style="margin-top: 3rem; margin-left: 1rem; background-color: rgb(91, 91, 221);">
+    <i class="bi bi-download"></i>
+  </button>
+    <div class="second-container" *ngIf="showingDetails" #pdfContent>
 
         <!-- Sale Details Header -->
         <div class="details-header">

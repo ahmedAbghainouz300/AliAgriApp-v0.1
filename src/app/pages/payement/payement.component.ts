@@ -1,5 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  ViewChild,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -78,7 +83,7 @@ export class PayementComponent {
     this.dataSource = new MatTableDataSource<Payement>(this.payements);
     this.dataSource.filterPredicate = (data: Payement, filter: string) => {
       const filterValue = filter.trim().toLowerCase();
-      const clientName = data.clientId ? this.getClientById(data.clientId) : '';
+      const clientName = data.clientId ? this.getClientById(data) : '';
       return (
         data.montant.toString().includes(filterValue) ||
         data.datePayement.toLowerCase().includes(filterValue) ||
@@ -139,18 +144,20 @@ export class PayementComponent {
       console.error('Error loading actionneurs:', error);
     }
   }
-  getClientById(id: number | undefined): string {
-    if (id === undefined) {
-      return 'unknown';
-    }
+  getClientById(payment: Payement): string {
+    console.log('payement' + payment);
+    console.log('id pay ' + payment.clientId);
+    console.log('action' + this.actionneur);
 
     if (this.actionneur === 'fournisseur') {
       const fournisseur = this.fournisseurs.find(
-        (fournisseur) => fournisseur.id === id
+        (fournisseur) => fournisseur.id === payment.fournisseurId
       );
       return fournisseur ? fournisseur.nom : 'unknown';
     } else {
-      const client = this.clients.find((client) => client.id === id);
+      const client = this.clients.find(
+        (client) => client.id === payment.clientId
+      );
       return client ? client.nom : 'unknown';
     }
   }
@@ -166,11 +173,13 @@ export class PayementComponent {
       confirmButtonText: 'supprimer',
     }).then((result) => {
       if (result.isConfirmed) {
+        alert(payement.id);
+
         try {
           const query =
             this.actionneur === 'client'
-              ? 'DELETE * FROM payementsclient WHERE id = ?'
-              : 'DELETE * FROM payementsfournisseur WHERE id = ?';
+              ? 'DELETE FROM payementsclient WHERE id = ?'
+              : 'DELETE FROM payementsfournisseur WHERE id = ?';
 
           this.databaseservise.queryDatabase(query, [payement.id]);
           this.showSuccessAlert();
@@ -237,5 +246,12 @@ export class PayementComponent {
   showDetails(payement: Payement) {
     this.showingDetails = true;
     this.detailledpayement = payement;
+  }
+
+  //print
+  @ViewChild('pdfContent', { static: false }) pdfContent!: ElementRef;
+
+  downloadPDF() {
+    this.databaseservise.downloadPDF('payement', this.pdfContent);
   }
 }

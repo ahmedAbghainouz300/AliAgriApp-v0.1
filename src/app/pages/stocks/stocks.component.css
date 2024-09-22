@@ -1,0 +1,116 @@
+
+.clients-container {
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    margin: auto;
+  }
+  
+  .clients-header {
+    display: flex;
+    justify-content: space-between; /* Space out items evenly */
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #282c34; /* Dark background for a modern look */
+    border-radius: 10px; /* Smooth corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+  }
+  
+  /* Image styling */
+  .client-image {
+    height: 90px;
+      width: 90px;
+  }
+  
+  
+  /* Form field styling */
+  .matformfield {
+    width: 100%;
+  }
+  
+  .mat-mdc-form-field {
+    border-radius: 5px;
+  }
+  
+  /* Button styling */
+  .add-client-btn {
+    min-width: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    background-color: #1976d2; /* Blue background for button */
+    border-radius: 5px;
+    padding: 10px 15px;
+    transition: background-color 0.3s ease; /* Smooth transition on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+  }
+  
+  /* Button hover effect */
+  .add-client-btn:hover {
+    background-color: #1565c0; /* Darker blue on hover */
+  }
+  
+  .add-client-btn .bi {
+    margin-right: 5px;
+  }
+  
+  
+  .add-client-form {
+    margin-bottom: 30px;
+    background-color: #282c34; /* Dark background for a modern look */
+    padding: 15px;
+    border-radius: 5px;
+  }
+  
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+  }
+  
+  .form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .clients-table-container {
+    overflow-x: auto;
+    /* Add horizontal scroll for small screens */
+  }
+  
+  
+  
+  .clients-table .btn-sm {
+    padding: 2px 5px;
+    font-size: 12px;
+    line-height: 1.5;
+    margin: 5px;
+    border: 10px;
+  }
+  
+  
+  .mat-mdc-row .mat-mdc-cell {
+    cursor: pointer;
+  }
+  
+  .mat-mdc-row:hover .mat-mdc-cell {
+    border: 1px solid rgb(182, 178, 178);
+    border-top:  1px solid rgb(182, 178, 178);
+  }
+  
+  /* .mat-mdc-row:nth-child(even) {
+      background-color: #e3f0e6;
+    } */
+    .mat-mdc-row .mat-mdc-cell {
+      border-bottom: 1px solid transparent;
+      border-top: 1px solid transparent;
+      cursor: pointer;
+    }
+    
+    .mat-mdc-row:hover .mat-mdc-cell {
+      border-color: currentColor;
+    }
+  

@@ -3,6 +3,7 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
+  ElementRef,
   OnInit,
   ViewChild,
 } from '@angular/core';
@@ -343,5 +344,10 @@ WHERE id = ?`,
     this.showingdetails = true;
     console.log('showing details : ', this.showingdetails);
     this.detailledproduit = produit;
+  }
+  @ViewChild('pdfContent', { static: false }) pdfContent!: ElementRef;
+
+  downloadPDF() {
+    this.databaseservise.downloadPDF('product', this.pdfContent);
   }
 }

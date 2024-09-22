@@ -15,6 +15,7 @@ import { MatInput } from '@angular/material/input';
 import { Fournisseur } from '../fournisseurs/fournisseurs.component';
 import { Client } from '../clients/clients.component';
 import Swal from 'sweetalert2';
+import { switchAll } from 'rxjs';
 
 @Component({
   selector: 'app-factures',
@@ -50,6 +51,7 @@ export class FacturesComponent implements OnInit {
   ];
   transaction: string = 'Vente';
   description: string = '';
+  avance: number = 0;
   async loadProduits() {
     try {
       const produits = await this.databaseservice.queryDatabase(
@@ -164,8 +166,14 @@ export class FacturesComponent implements OnInit {
   async enregistrerVente() {
     try {
       await this.databaseservice.queryDatabase(
-        'INSERT INTO ventes(description, clientId, total) VALUES(?, ?, ?)',
-        [this.description, this.selectedClient.id, this.total]
+        'INSERT INTO ventes(description, clientId, total ,type ,avance) VALUES(?, ?, ? ,? ,?)',
+        [
+          this.description,
+          this.selectedClient.id,
+          this.total,
+          this.selectedSaleType,
+          this.avance,
+        ]
       );
 
       const idSale = await this.getSaleId();
@@ -181,23 +189,48 @@ export class FacturesComponent implements OnInit {
         );
       });
       if (
-        this.selectedSaleType === 'credit' &&
-        this.selectedClient.limite - this.selectedClient.credit >= this.total
+        this.selectedSaleType !== 'cash' &&
+        this.selectedSaleType !== 'cheque'
       ) {
-        await this.databaseservice.queryDatabase(
-          `UPDATE clients SET credit = credit + ? WHERE id = ?`,
-          [this.getTotal(), this.selectedClient.id]
-        );
-        console.log('Client credit updated successfully.');
-        this.showSuccessAlert();
-        this.selectedProduits = [];
-      } else {
-        Swal.fire({
-          icon: 'warning',
-          title: 'rejected!',
-          text: 'le credit de ce client est arrive a sa limite',
-          confirmButtonText: 'OK',
-        });
+        if (
+          this.selectedSaleType === 'credit' &&
+          this.selectedClient.limite - this.selectedClient.credit >= this.total
+        ) {
+          await this.databaseservice.queryDatabase(
+            `UPDATE clients SET credit = credit + ? WHERE id = ?`,
+            [this.getTotal(), this.selectedClient.id]
+          );
+          console.log('Client credit updated successfully.');
+          this.showSuccessAlert();
+          this.selectedProduits = [];
+        } else {
+          Swal.fire({
+            icon: 'warning',
+            title: 'rejected!',
+            text: 'le credit de ce client est arrive a sa limite',
+            confirmButtonText: 'OK',
+          });
+        }
+        if (
+          this.selectedSaleType === 'avance' &&
+          this.selectedClient.limite - this.selectedClient.credit >=
+            this.total - this.avance
+        ) {
+          await this.databaseservice.queryDatabase(
+            `UPDATE clients SET credit = credit + ? WHERE id = ?`,
+            [this.getTotal() - this.avance, this.selectedClient.id]
+          );
+          console.log('Client credit updated successfully.');
+          this.showSuccessAlert();
+          this.selectedProduits = [];
+        } else {
+          Swal.fire({
+            icon: 'warning',
+            title: 'rejected!',
+            text: 'le credit de ce client est arrive a sa limite',
+            confirmButtonText: 'OK',
+          });
+        }
       }
     } catch (err) {
       alert('Error adding facture' + err);
@@ -208,8 +241,14 @@ export class FacturesComponent implements OnInit {
     try {
       // Insert new purchase record into 'achats' table
       await this.databaseservice.queryDatabase(
-        'INSERT INTO achats(description, fournisseurId, total) VALUES(?, ?, ?)',
-        [this.description, this.selectedFournisseur.id, this.total]
+        'INSERT INTO achats(description, fournisseurId, total ,type ,avance) VALUES(?, ?, ? ,? ,?)',
+        [
+          this.description,
+          this.selectedFournisseur.id,
+          this.total,
+          this.selectedSaleType,
+          this.avance,
+        ]
       );
 
       // Get the new purchase ID
@@ -235,6 +274,13 @@ export class FacturesComponent implements OnInit {
         await this.databaseservice.queryDatabase(
           'UPDATE fournisseurs SET debit = debit + ? WHERE id = ?',
           [this.getTotal(), this.selectedFournisseur.id]
+        );
+        console.log('Fournisseur debit updated successfully.');
+      }
+      if (this.selectedSaleType === 'avance') {
+        await this.databaseservice.queryDatabase(
+          'UPDATE fournisseurs SET debit = debit + ? WHERE id = ?',
+          [this.getTotal() - this.avance, this.selectedFournisseur.id]
         );
         console.log('Fournisseur debit updated successfully.');
       }

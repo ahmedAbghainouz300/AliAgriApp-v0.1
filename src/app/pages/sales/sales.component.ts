@@ -1,5 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  ViewChild,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -23,6 +28,8 @@ export interface Vente {
   dateVente: string;
   clientId: number;
   total: number;
+  type: string;
+  avance: number;
 }
 
 @Component({
@@ -58,6 +65,8 @@ export class SalesComponent {
     dateVente: '',
     clientId: 0,
     total: 0,
+    type: '',
+    avance: 0,
   };
   newVente: Vente = {
     id: 0,
@@ -65,6 +74,8 @@ export class SalesComponent {
     dateVente: '',
     clientId: 0,
     total: 0,
+    type: '',
+    avance: 0,
   };
 
   constructor(
@@ -108,6 +119,7 @@ export class SalesComponent {
       console.error('Error loading ventes:', err);
     }
     this.ngAfterViewInit();
+    console.log(this.ventes);
   }
 
   clients: Client[] = [];
@@ -163,7 +175,15 @@ export class SalesComponent {
     });
   }
 
-  displayedColumns: string[] = ['no', 'date', 'client', 'total', 'option'];
+  displayedColumns: string[] = [
+    'no',
+    'date',
+    'client',
+    'total',
+    'type',
+    'avance',
+    'option',
+  ];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -199,6 +219,8 @@ export class SalesComponent {
     dateVente: '',
     clientId: 0,
     total: 0,
+    type: '',
+    avance: 0,
   };
 
   async loadProduits() {
@@ -237,5 +259,12 @@ export class SalesComponent {
       }
     }
     return 'unknown';
+  }
+
+  //print
+  @ViewChild('pdfContent', { static: false }) pdfContent!: ElementRef;
+
+  downloadPDF() {
+    this.databaseservise.downloadPDF('sale', this.pdfContent);
   }
 }

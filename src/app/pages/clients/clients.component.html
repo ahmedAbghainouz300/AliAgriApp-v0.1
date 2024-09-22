@@ -151,7 +151,11 @@
   <button mat-fab (click)="showingdetails = false" style="margin-top: 3rem; margin-left: 3rem;">
     <i class="bi bi-arrow-return-left"></i>
   </button>
-  <div class="second-container">
+  <button mat-fab (click)="downloadPDF()"
+    style="margin-top: 3rem; margin-left: 1rem; background-color: rgb(91, 91, 221);">
+    <i class="bi bi-download"></i>
+  </button>
+  <div class="second-container" #pdfContent>
     <div class="details-header">
       <h2>Client: {{detailledClient.nom}}</h2>
       <ul class="client-details-list">

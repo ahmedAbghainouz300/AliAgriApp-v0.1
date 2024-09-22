@@ -25,10 +25,12 @@
       </mat-select>
     </mat-form-field>
     <mat-form-field appearance="outline" *ngIf="transaction === 'Achat' || transaction === 'Vente'">
-      <mat-label>Type de payement</mat-label>
+      <mat-label>Type de reglement</mat-label>
       <mat-select [(value)]="selectedSaleType">
         <mat-option value="credit">Crédit</mat-option>
         <mat-option value="cash">Cash</mat-option>
+        <mat-option value="cheque">cheque</mat-option>
+        <mat-option value="avance">avance</mat-option>
       </mat-select>
     </mat-form-field>
 
@@ -53,6 +55,11 @@
         <mat-form-field appearance="outline" floatLabel="always">
           <mat-label>Unite</mat-label>
           <input matInput type="number" min="1" [(ngModel)]="quantite" placeholder="1" />
+        </mat-form-field>
+        <mat-form-field appearance="outline" floatLabel="always" *ngIf="selectedSaleType==='avance'">
+          <mat-label>Avance</mat-label>
+          <input matInput type="number" min="0" [(ngModel)]="avance" placeholder="0" />
+          <span matTextPrefix>MAD&nbsp;</span>
         </mat-form-field>
       </div>
       <button mat-raised-button color="success" (click)="ajouterProduit()">Ajouter</button>

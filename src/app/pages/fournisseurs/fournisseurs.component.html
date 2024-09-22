@@ -8,7 +8,7 @@
         <input matInput [(ngModel)]="searchTerm" (keyup)="filterchange()" />
       </mat-form-field>
     </div>
-    
+
     <button class="btn btn-outline-primary add-fournisseur-btn" (click)="onAdding=!onAdding">
       <i class="bi bi-plus-circle"></i> Add Fournisseur
     </button>
@@ -46,7 +46,7 @@
 
   <div class="mat-elevation-z8 fournisseurs-table-container">
     <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 fournisseurs-table">
-  
+
       <!-- CIN Column -->
       <ng-container matColumnDef="cin">
         <th mat-header-cell *matHeaderCellDef class="bordered-cell"> CIN </th>
@@ -55,7 +55,7 @@
           <input *ngIf="fournisseur.onediting" [(ngModel)]="editedFournisseur.cin">
         </td>
       </ng-container>
-  
+
       <!-- Nom Column -->
       <ng-container matColumnDef="nom">
         <th mat-header-cell *matHeaderCellDef class="bordered-cell" mat-sort-header> Nom </th>
@@ -64,7 +64,7 @@
           <input *ngIf="fournisseur.onediting" [(ngModel)]="editedFournisseur.nom">
         </td>
       </ng-container>
-  
+
       <!-- Telephone Column -->
       <ng-container matColumnDef="telephone">
         <th mat-header-cell *matHeaderCellDef class="bordered-cell"> Telephone </th>
@@ -73,7 +73,7 @@
           <input *ngIf="fournisseur.onediting" [(ngModel)]="editedFournisseur.telephone">
         </td>
       </ng-container>
-  
+
       <!-- Email Column -->
       <ng-container matColumnDef="email">
         <th mat-header-cell *matHeaderCellDef class="bordered-cell"> Email </th>
@@ -82,7 +82,7 @@
           <input *ngIf="fournisseur.onediting" [(ngModel)]="editedFournisseur.email">
         </td>
       </ng-container>
-  
+
       <!-- Adresse Column -->
       <ng-container matColumnDef="adresse">
         <th mat-header-cell *matHeaderCellDef class="bordered-cell"> Adresse </th>
@@ -91,59 +91,66 @@
           <input *ngIf="fournisseur.onediting" [(ngModel)]="editedFournisseur.adresse">
         </td>
       </ng-container>
-  
-      <!-- Date d'ajout Column -->
+
       <ng-container matColumnDef="limite">
-        <th mat-header-cell *matHeaderCellDef class="bordered-cell"> Limite </th>
+        <th mat-header-cell *matHeaderCellDef class="bordered-cell"> Adresse </th>
         <td mat-cell *matCellDef="let fournisseur" class="bordered-cell">
-          {{fournisseur.limite}}
+          {{fournisseur.limite | rightCurrency}}
           <input *ngIf="fournisseur.onediting" [(ngModel)]="editedFournisseur.limite">
         </td>
       </ng-container>
-  
-      <!-- Credit Column -->
+
+      <!-- debit Column -->
       <ng-container matColumnDef="credit">
         <th mat-header-cell *matHeaderCellDef class="bordered-cell"> Debit </th>
         <td mat-cell *matCellDef="let fournisseur" class="bordered-cell">
           {{fournisseur.debit | rightCurrency:'MAD' }}
         </td>
       </ng-container>
-  
+
       <!-- Options Column -->
       <ng-container matColumnDef="options">
         <th mat-header-cell *matHeaderCellDef class="bordered-cell"> Options </th>
         <td mat-cell *matCellDef="let fournisseur" class="bordered-cell">
-          <button class="btn btn-outline-primary btn-sm" *ngIf="fournisseur.onediting && Editing" (click)="editFournisseur(fournisseur);showingdetails=false"> 
+          <button class="btn btn-outline-primary btn-sm" *ngIf="fournisseur.onediting && Editing"
+            (click)="editFournisseur(fournisseur);showingdetails=false">
             <i class="bi bi-floppy"></i> Save
           </button>
-          <button *ngIf="!fournisseur.onediting && !Editing" class="btn btn-outline-success btn-sm" (click)="onEditing(fournisseur); Editing = true">
+          <button *ngIf="!fournisseur.onediting && !Editing" class="btn btn-outline-success btn-sm"
+            (click)="onEditing(fournisseur); Editing = true">
             <i class="bi bi-pencil-square"></i> Edit
           </button>
-          <button *ngIf="!fournisseur.onediting && !Editing" type="button" class="btn btn-outline-danger btn-sm" (click)="deleteFournisseur(fournisseur)">
+          <button *ngIf="!fournisseur.onediting && !Editing" type="button" class="btn btn-outline-danger btn-sm"
+            (click)="deleteFournisseur(fournisseur)">
             <i class="bi bi-trash3-fill"></i> Delete
           </button>
           <!-- <button class="btn btn-outline-dark btn-sm">
             <i class="bi bi-eye"></i> Details
           </button> -->
-          <button *ngIf="fournisseur.onediting" type="button" class="btn btn-outline-danger btn-sm" (click)="fournisseur.onediting = false;Editing= false">
+          <button *ngIf="fournisseur.onediting" type="button" class="btn btn-outline-danger btn-sm"
+            (click)="fournisseur.onediting = false;Editing= false">
             <i class="bi bi-trash3-fill"></i> Cancel
           </button>
         </td>
       </ng-container>
-  
+
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row (click)="showDetails(row)" *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
-  
+
     <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements">
     </mat-paginator>
-  </div>  
+  </div>
 </div>
 <div *ngIf="showingdetails && !Editing">
   <button mat-fab (click)="showingdetails = false" style="margin-top: 3rem; margin-left: 3rem;">
     <i class="bi bi-arrow-return-left"></i>
   </button>
-  <div class="second-container">
+  <button mat-fab (click)="downloadPDF()"
+    style="margin-top: 3rem; margin-left: 1rem; background-color: rgb(91, 91, 221);">
+    <i class="bi bi-download"></i>
+  </button>
+  <div class="second-container" #pdfContent>
     <div class="details-header">
       <h2>Fournisseur : {{detailledFournisseur.nom}}</h2>
       <ul class="fournisseur-details-list">

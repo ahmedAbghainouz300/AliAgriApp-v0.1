@@ -1,5 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  ViewChild,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -23,6 +28,8 @@ export interface Achat {
   dateAchat: string;
   fournisseurId: number;
   total: number;
+  type: string;
+  avance: number;
 }
 
 @Component({
@@ -58,6 +65,8 @@ export class PurshasesComponent {
     dateAchat: '',
     fournisseurId: 0,
     total: 0,
+    type: '',
+    avance: 0,
   };
   newAchat: Achat = {
     id: 0,
@@ -65,6 +74,8 @@ export class PurshasesComponent {
     dateAchat: '',
     fournisseurId: 0,
     total: 0,
+    type: '',
+    avance: 0,
   };
 
   constructor(
@@ -165,7 +176,15 @@ export class PurshasesComponent {
     });
   }
 
-  displayedColumns: string[] = ['no', 'date', 'fournisseur', 'total', 'option'];
+  displayedColumns: string[] = [
+    'no',
+    'date',
+    'fournisseur',
+    'total',
+    'type',
+    'avance',
+    'option',
+  ];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -201,6 +220,8 @@ export class PurshasesComponent {
     dateAchat: '',
     fournisseurId: 0,
     total: 0,
+    type: '',
+    avance: 0,
   };
 
   async loadProduits() {
@@ -239,5 +260,12 @@ export class PurshasesComponent {
       }
     }
     return 'unknown';
+  }
+
+  //print
+  @ViewChild('pdfContent', { static: false }) pdfContent!: ElementRef;
+
+  downloadPDF() {
+    this.databaseservise.downloadPDF('purshase', this.pdfContent);
   }
 }

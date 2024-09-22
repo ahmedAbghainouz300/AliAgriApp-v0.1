@@ -5,6 +5,7 @@ import {
   Component,
   OnInit,
   ViewChild,
+  ElementRef,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -21,6 +22,8 @@ import { RightCurrencyPipe } from '../../right-currency.pipe';
 import path from 'path';
 import { MatListModule } from '@angular/material/list';
 import { MatButton, MatFabButton } from '@angular/material/button';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 export interface Client {
   id: number;
@@ -285,5 +288,12 @@ WHERE id = ?`,
   showDetails(client: Client) {
     this.showingdetails = true;
     this.detailledClient = client;
+  }
+
+  //print
+  @ViewChild('pdfContent', { static: false }) pdfContent!: ElementRef;
+
+  downloadPDF() {
+    this.databaseservise.downloadPDF('client', this.pdfContent);
   }
 }
