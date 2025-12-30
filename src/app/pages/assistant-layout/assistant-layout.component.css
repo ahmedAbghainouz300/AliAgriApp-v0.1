@@ -57,6 +57,8 @@
   cursor: pointer;
   background: none;
   border: none;
+  position: absolute;
+  right: 10px; /* Aligns the icon to the far right */
 }
 
 .menu-bar {

@@ -165,6 +165,7 @@ export class FacturesComponent implements OnInit {
   }
   async enregistrerVente() {
     try {
+      // Insert into ventes table
       await this.databaseservice.queryDatabase(
         'INSERT INTO ventes(description, clientId, total ,type ,avance) VALUES(?, ?, ? ,? ,?)',
         [
@@ -178,7 +179,8 @@ export class FacturesComponent implements OnInit {
 
       const idSale = await this.getSaleId();
 
-      this.selectedProduits.forEach(async (produit) => {
+      // Insert into facturesvente and update product stock
+      for (const produit of this.selectedProduits) {
         await this.databaseservice.queryDatabase(
           'INSERT INTO facturesvente (ProduitId, venteId, quantite, prix) VALUES (?, ?, ?, ?)',
           [produit.produit.id, idSale, produit.quantite, produit.prix]
@@ -187,53 +189,62 @@ export class FacturesComponent implements OnInit {
           'UPDATE produits SET stock = stock - ? WHERE id = ?',
           [produit.quantite, produit.produit.id]
         );
-      });
-      if (
-        this.selectedSaleType !== 'cash' &&
-        this.selectedSaleType !== 'cheque'
-      ) {
+      }
+
+      if (this.selectedSaleType === 'credit') {
+        // Handle 'credit' type sale
         if (
-          this.selectedSaleType === 'credit' &&
-          this.selectedClient.limite - this.selectedClient.credit >= this.total
+          this.selectedClient.limite - this.selectedClient.credit >=
+          this.total
         ) {
           await this.databaseservice.queryDatabase(
-            `UPDATE clients SET credit = credit + ? WHERE id = ?`,
-            [this.getTotal(), this.selectedClient.id]
+            'UPDATE clients SET credit = credit + ? WHERE id = ?',
+            [this.total, this.selectedClient.id]
           );
           console.log('Client credit updated successfully.');
           this.showSuccessAlert();
           this.selectedProduits = [];
         } else {
+          console.log('Credit limit reached for client.');
           Swal.fire({
             icon: 'warning',
-            title: 'rejected!',
-            text: 'le credit de ce client est arrive a sa limite',
+            title: 'Rejected!',
+            text: 'Le crédit de ce client a atteint sa limite.',
             confirmButtonText: 'OK',
           });
         }
+      } else if (this.selectedSaleType === 'avance') {
+        // Handle 'avance' type sale
+        const remainingCredit = this.total - this.avance;
         if (
-          this.selectedSaleType === 'avance' &&
           this.selectedClient.limite - this.selectedClient.credit >=
-            this.total - this.avance
+          remainingCredit
         ) {
           await this.databaseservice.queryDatabase(
-            `UPDATE clients SET credit = credit + ? WHERE id = ?`,
-            [this.getTotal() - this.avance, this.selectedClient.id]
+            'UPDATE clients SET credit = credit + ? WHERE id = ?',
+            [remainingCredit, this.selectedClient.id]
           );
           console.log('Client credit updated successfully.');
           this.showSuccessAlert();
           this.selectedProduits = [];
         } else {
+          console.log('Credit limit reached for client on avance sale.');
           Swal.fire({
             icon: 'warning',
-            title: 'rejected!',
-            text: 'le credit de ce client est arrive a sa limite',
+            title: 'Rejected!',
+            text: 'Le crédit de ce client a atteint sa limite.',
             confirmButtonText: 'OK',
           });
         }
       }
     } catch (err) {
-      alert('Error adding facture' + err);
+      console.error('Error adding facture:', err);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error!',
+        text: 'Error adding facture: ' + err,
+        confirmButtonText: 'OK',
+      });
     }
   }
 
